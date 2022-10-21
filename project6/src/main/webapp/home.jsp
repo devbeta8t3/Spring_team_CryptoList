@@ -34,7 +34,7 @@
 				
 			});
 			function jsonParsing(result) {
-				let symbolText = result.data.symbol;
+				let symbolText = result.data.slug;
 				$("#symbol").empty().append(symbolText);
 			}
 			

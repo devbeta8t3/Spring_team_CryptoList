@@ -20,6 +20,8 @@
 	
 		const key = "3732d88b-29b4-466e-9750-d3d42ed051b3"; // Messari api key
 		//const key = "918582da-b8aa-4c16-87d6-d0d19365bd67"; // CMC api key 
+		//const key = "211855aaa11e3ea120cbdbf4638a6d591092c44a"; // cryptopanic.com api key 
+		
 			
 		$.ajax({
 			url : "https://data.messari.io/api/v2/assets",	// 요청 주소
@@ -101,13 +103,21 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<!-- Welcome -->
-		<div>
-			<p class="h2 mt-5 text-center">Welcome</p>
-			<p class="text-center"> 홈페이지에 오신 것을 환영합니다.</p>
-			<p class="text-center"><button type="button" class="btn btn-primary btn-lg" onclick="href:location='./list.jsp'">시작하기</button></p>
+		<!-- List -->
+		<div class="col-sm-12 col-md-8 col-lg-8 bg-secondary px-1">
+			<p class="h2">Crypto List</p>
 		</div>
-		<!-- end of Welcome -->
+		<!-- end of List -->
+		
+		<!-- News Widget - https://cryptopanic.com/developers/widgets/ -->
+		<div class="col-sm-12 col-md-4 col-lg-4 px-1">
+			<p class="h2">News</p>
+			<a href="https://cryptopanic.com/" target="_blank" data-news_feed="recent" data-bg_color="#FFFFFF" data-text_color="#333333" data-link_color="#0091C2" data-header_bg_color="#30343B" data-header_text_color="#FFFFFF" data-posts_limit="10" data-font_family="mono" data-font_size="12" class="CryptoPanicWidget">Latest News</a>
+			<script src="https://static.cryptopanic.com/static/js/widgets.min.js"></script>
+		
+		</div>
+		<!-- end of News Widget -->
+		
 	</div>
 </div>
 

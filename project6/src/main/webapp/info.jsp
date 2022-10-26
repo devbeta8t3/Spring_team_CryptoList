@@ -13,13 +13,12 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type="text/javascript">
 	
-	$(function() {
+/* 	$(function() {
 		//$('#id').on("click", 'tag', function() {	// 해당 문법은 dynamically created elements에서 동작하지 않는다
 		//$(document).on('click', '#id tag', function(){	// 위의 문법이 안될 경우 이렇게 작성하자.
 				
 	
 		const key = "3732d88b-29b4-466e-9750-d3d42ed051b3"; // Messari api key
-		//const key = "918582da-b8aa-4c16-87d6-d0d19365bd67"; // CMC api key 
 			
 		$.ajax({
 			url : "https://data.messari.io/api/v2/assets",	// 요청 주소
@@ -42,11 +41,9 @@
 			let symbolText = result.data.slug;	// 심볼
 			$("#symbol").empty().append(symbolText);
 		}
-			
+			 */
 		
-		
-		
-		
+				
 	});
 	
 	</script>
@@ -101,13 +98,24 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<!-- Welcome -->
-		<div>
-			<p class="h2 mt-5 text-center">Welcome</p>
-			<p class="text-center"> 홈페이지에 오신 것을 환영합니다.</p>
-			<p class="text-center"><button type="button" class="btn btn-primary btn-lg" onclick="href:location='./list.jsp'">시작하기</button></p>
+	
+		<!-- Infomations -->
+		<div class="col-sm-12 col-md-6 col-lg-6 bg-success px-1">
+			<p class="h2">Infomations</p>
+			<p>메사리 api GET 요청 test </p>
+			<p>응답 type: <strong>json </strong></p>
+			<hr/>
+			<p>파싱된 문구: <span id="symbol">none</span></p>
 		</div>
-		<!-- end of Welcome -->
+		<!-- end of Infomations -->
+		
+		
+		<!-- Board -->
+		<div class="col-sm-12 col-md-6 col-lg-6 bg-warning px-1">
+			<p class="h2">Board</p>
+		</div>
+		<!-- Board -->
+		
 	</div>
 </div>
 

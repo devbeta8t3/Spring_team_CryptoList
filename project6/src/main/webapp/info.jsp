@@ -13,7 +13,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type="text/javascript">
 	
-/* 	$(function() {
+ 	$(function() {
 		//$('#id').on("click", 'tag', function() {	// 해당 문법은 dynamically created elements에서 동작하지 않는다
 		//$(document).on('click', '#id tag', function(){	// 위의 문법이 안될 경우 이렇게 작성하자.
 				
@@ -28,7 +28,7 @@
 			success : function(result) {	//통신 성공시 호출하는 함수
 				//alert("요청에 의한 응답 성공 값 : " +result);
 				console.log(result);
-				jsonParsing(result);	// 가독성 위해 따로 작성
+				infoParsing(result);	// 가독성 위해 따로 작성
 			},
 			error : function(xhr, status, msg) {	// 통신 실패시 호출하는 함수
 				alert('Getting data from server has failed.');
@@ -37,11 +37,28 @@
 			}
 			
 		});
-		function jsonParsing(result) {
-			let symbolText = result.data.slug;	// 심볼
-			$("#symbol").empty().append(symbolText);
+		function infoParsing(result) {
+			let str = "";
+			let symbolText = "";
+			
+			for (index in result.data){
+				
+				rankText = result.data[index].metrics.marketcap.rank;// rank
+				nameText = result.data[index].name;// name
+				symbolText = result.data[index].symbol;// 심볼
+				priceText = result.data[index].metrics.market_data.price_usd;// 심볼
+				mcapText = result.data[index].metrics.marketcap.current_marketcap_usd;// 심볼
+				
+				str += "<tr>";
+				str += "<td>" +rankText+ "</td>";
+				str += "<th scope='row'>" +nameText+ " " +symbolText+ "</th>";
+				str += "<td>" +priceText+ "</td>";
+				str += "<td>" +priceText+ "</td>";
+				str += "</tr>";
+			}
+			$("#assetList").empty().append(str);
 		}
-			 */
+			
 		
 				
 	});
@@ -54,7 +71,7 @@
 <body>
 
 <!-- Upper Nav bar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,12 +117,49 @@
 	<div class="row">
 	
 		<!-- Infomations -->
-		<div class="col-sm-12 col-md-6 col-lg-6 bg-success px-1">
-			<p class="h2">Infomations</p>
-			<p>메사리 api GET 요청 test </p>
-			<p>응답 type: <strong>json </strong></p>
-			<hr/>
-			<p>파싱된 문구: <span id="symbol">none</span></p>
+		<div class="col-sm-12 col-md-6 col-lg-6 px-1">
+			
+			<!-- Info from api data -->
+			<div id="info" class="bg-success">
+			
+				<p class="h2">Infomations</p>
+				<p>메사리 api GET 요청 test </p>
+				<p>응답 type: <strong>json </strong></p>
+				<hr/>
+				
+				
+				
+			</div>
+			<!-- end of Info from api data -->
+			
+			<!-- TradingView Widget BEGIN -->
+			<div class="tradingview-widget-container bg-primary">
+			  <div id="tradingview_47af1" style="height: 400px;"></div>			<!-- 스타일 나중에 css에 작성-------------------todo -->
+			  <div class="tradingview-widget-copyright">Chart by TradingView</div>
+			  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+			  <script type="text/javascript">
+				  // https://www.tradingview.com/widget/advanced-chart/
+				  // ajax success 함수에 집어넣자 ------------------------------------------- todo
+				  new TradingView.widget(
+				  {
+				  "autosize": true,
+				  //"width": 900,
+				  //"height": 400,
+				  "symbol": "BINANCE:BTCUSDT",
+				  "interval": "D",// 1, 3, 5, 15, 30, 60, 120, 240, D, W (숫자는 분단위)
+				  "timezone": "Asia/Seoul",
+				  "theme": "light",// light, dark
+				  "style": "1",
+				  "locale": "en",
+				  "toolbar_bg": "#f1f3f6",
+				  "enable_publishing": false,
+				  "allow_symbol_change": true,
+				  "container_id": "tradingview_47af1"
+				  });
+			  </script>
+			</div>
+			<!-- TradingView Widget END -->
+			
 		</div>
 		<!-- end of Infomations -->
 		

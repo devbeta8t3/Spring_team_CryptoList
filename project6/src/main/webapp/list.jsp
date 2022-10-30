@@ -83,7 +83,10 @@
 					volText = parseInt(volText).toLocaleString('ko-KR');;
 				mcapText = result.data[index].metrics.marketcap.current_marketcap_usd;// 시가총액
 					mcapText = parseInt(mcapText).toLocaleString('ko-KR');;
-				iconURL = "<img src='https://cryptoicons.org/api/color/" +result.data[index].symbol.toLowerCase()+ "/30' />";
+				//iconURL = "<img src='https://cryptoicons.org/api/color/" +result.data[index].symbol.toLowerCase()+ "/20' />";
+				
+				// images source - https://github.com/ErikThiart/cryptocurrency-icons
+				iconURL = "<img src='https://raw.githubusercontent.com/ErikThiart/cryptocurrency-icons/master/16/" +result.data[index].slug+ ".png' height='16' width='16' />";
 				
 					
 					
@@ -185,24 +188,25 @@
 <!-- Upper Nav bar -->
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">Crypto-List</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarColor03">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="#">Home
+          <a class="nav-link" href="#">Home
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link active" href="#">TOP 100</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
+          <a class="nav-link" href="#">즐겨찾기</a>
         </li>
-        <li class="nav-item">
+        <!-- 추가 메뉴 및 드롭다운 메뉴를 위한 예비코드 -->
+        <!-- <li class="nav-item">
           <a class="nav-link" href="#">About</a>
         </li>
         <li class="nav-item dropdown">
@@ -214,11 +218,13 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#">Separated link</a>
           </div>
-        </li>
+        </li> -->
+        <!-- 추가 메뉴 예비코드 끝 -->
       </ul>
       <form class="d-flex">
-        <input class="form-control me-sm-2" type="text" placeholder="Search">
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        <!-- <input class="form-control me-sm-2" type="text" placeholder="Search"> -->
+        <button class="btn btn-primary my-2 my-sm-0 mx-2" type="button">로그인</button>
+        <button class="btn btn-danger my-2 my-sm-0" type="button">회원가입</button>
       </form>
     </div>
   </div>
@@ -237,11 +243,11 @@
 						<th scope="col">#</th>
 						<th scope="col">★</th>
 						<th scope="col" class="text-center">Asset</th>
-						<th scope="col" class="text-center">Price<br/>(USD)</th>
-						<th scope="col" class="text-center">Price<br/>(BTC)</th>
-						<th scope="col" class="text-center">Change USD<br/>24h</th>
-						<th scope="col" class="text-center">Real Volume<br/>24h (USD)</th>
-						<th scope="col" class="text-center">Market Cap.<br/>(USD)</th>
+						<th scope="col" class="text-center">Price<br/><small>(USD)</small></th>
+						<th scope="col" class="text-center">Price<br/><small>(BTC)</small></th>
+						<th scope="col" class="text-center">Change USD<br/><small>24h</small></th>
+						<th scope="col" class="text-center">Real Volume<br/><small>24h (USD)</small></th>
+						<th scope="col" class="text-center">Market Cap.<br/><small>(USD)</small></th>
 					</tr>
 				</thead>
 				<tbody id="assetList">

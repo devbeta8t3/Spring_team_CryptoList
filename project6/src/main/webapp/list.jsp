@@ -79,6 +79,7 @@
 					priceBtcText = parseFloat(priceBtcText).toFixed(8);
 				changeText = result.data[index].metrics.market_data.percent_change_usd_last_24_hours;	// 가격변동% 24h
 					changeText = parseFloat(changeText).toFixed(2);													// 가격변동% 24h - 소수점2자리 표시
+					console.log("changeText의 type: " +typeof changeText); // type 체크
 				volText = result.data[index].metrics.market_data.real_volume_last_24_hours// 실제 거래량 24h
 					volText = parseInt(volText).toLocaleString('ko-KR');;
 				mcapText = result.data[index].metrics.marketcap.current_marketcap_usd;// 시가총액
@@ -92,8 +93,8 @@
 					
 				str += "<tr>";
 				str += "<td>" +rankText+ "</td>";
-				str += "<td>" +"☆"+ "</td>";
-				str += "<th scope='row'>" +iconURL+ " " +nameText+ " <small class='text-muted'>" +symbolText+ "</small></th>";
+				str += "<td>" +"☆"+ "</td>";// favorite 테이블과 비교해서 별표 색깔 변경 symbol에 있으면 노란별, symbol에 없으면 회색별 -------------------------------- todo
+				str += "<th scope='row'>" +iconURL+ " " +nameText+ " <small class='text-muted'>" +symbolText+ "</small></th>";// 링크 삽입 상세정보 페이지로 이동 ---- todo
 				str += "<td class='text-end'>" +priceText+ "</td>";
 				str += "<td class='text-end'>" +priceBtcText+ "</td>";
 				str += "<td class='text-end'>" +changeText+ "% </td>";
@@ -149,6 +150,7 @@
 			
 		}// end of function infoParsing
 		
+		// 가격(usd) 소수점 표시
 		function priceLength(numberStr){
 			
 			let number = parseFloat(numberStr);
@@ -186,56 +188,14 @@
 <body>
 
 <!-- Upper Nav bar -->
-<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Crypto-List</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarColor03">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Home
-            <span class="visually-hidden">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="#">TOP 100</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">즐겨찾기</a>
-        </li>
-        <!-- 추가 메뉴 및 드롭다운 메뉴를 위한 예비코드 -->
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </div>
-        </li> -->
-        <!-- 추가 메뉴 예비코드 끝 -->
-      </ul>
-      <form class="d-flex">
-        <!-- <input class="form-control me-sm-2" type="text" placeholder="Search"> -->
-        <button class="btn btn-primary my-2 my-sm-0 mx-2" type="button">로그인</button>
-        <button class="btn btn-danger my-2 my-sm-0" type="button">회원가입</button>
-      </form>
-    </div>
-  </div>
-</nav>
+<%@include file="./topbar.jsp"%>
 <!-- end of Upper Nav bar -->
 
 <div class="container-fluid">
 	<div class="row">
 		<!-- List -->
 		<div class="col-sm-12 col-md-8 col-lg-8 px-1">
-			<p class="h2">Crypto List</p>
+			<p class="h2"><strong>Crypto List</strong></p>
 			
 			<table id="listTable" class="table table-sm table-hover table-striped">
 				<thead>
@@ -268,7 +228,7 @@
 		
 		<!-- News Widget - https://cryptopanic.com/developers/widgets/ -->
 		<div class="col-sm-12 col-md-4 col-lg-4 px-1">
-			<p class="h2">News</p>
+			<p class="h2"><strong>News</strong></p>
 			<a href="https://cryptopanic.com/" target="_blank" data-news_feed="recent" data-bg_color="#FFFFFF" data-text_color="#333333" data-link_color="#0091C2" data-header_bg_color="#30343B" data-header_text_color="#FFFFFF" data-posts_limit="10" data-font_family="mono" data-font_size="12" class="CryptoPanicWidget">Latest News</a>
 			<script src="https://static.cryptopanic.com/static/js/widgets.min.js"></script>
 		

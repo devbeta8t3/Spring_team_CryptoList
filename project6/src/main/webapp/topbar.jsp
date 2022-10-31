@@ -10,15 +10,15 @@
     <div class="collapse navbar-collapse" id="navbarColor03">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#">Home
+          <a class="nav-link" href="./home.jsp">Home
             <span class="visually-hidden">(current)</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="#">TOP 100</a>
+          <a class="nav-link" href="./list.jsp">TOP 100</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">즐겨찾기</a>
+          <a class="nav-link" href="./favor.jsp">즐겨찾기</a>
         </li>
         <!-- 추가 메뉴 및 드롭다운 메뉴를 위한 예비코드 -->
         <!-- <li class="nav-item">

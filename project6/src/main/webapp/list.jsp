@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>Top 100 Coins</title>
 	
 	<!-- Bootstrap 5.2.2 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
@@ -32,7 +32,25 @@
 			background: #333;
 			color: #fff;
 		}
-	
+		
+		/* 폰트 설정 */
+		@font-face{
+			src: url("./ROKG_R.TTF");
+			font-family: "ROKG"; 
+		}
+		body {
+			font-family: "ROKG", "맑은 고딕", verdana, san-serif;
+		}
+		#copyRight {
+			font-family: "맑은 고딕", verdana, san-serif;
+			font-size: 6px;
+		}
+		
+		/* 링크 밑줄 없애기 */
+		a {
+			text-decoration-line: none;
+		}
+		
 	</style>
 	
 	<!-- Javascript -->
@@ -55,7 +73,7 @@
 			success : function(result) {	//통신 성공시 호출하는 함수
 				//alert("요청에 의한 응답 성공 값 : " +result);
 				console.log(result);	// response된 json 확인 (완료)
-				infoParsing(result);	// 가독성 위해 따로 작성
+				listParsing(result);	// 가독성 위해 따로 작성
 			},
 			error : function(xhr, status, msg) {	// 통신 실패시 호출하는 함수
 				alert('Getting data from server has failed.');
@@ -64,27 +82,41 @@
 			}
 			
 		});
-		function infoParsing(result) {
+		function listParsing(result) {
 			let str = "";
 			let symbolText = "";
+			let idx = 0;
 						
 			for (index in result.data){
 				
-				rankText = result.data[index].metrics.marketcap.rank;// 순위
+				idx++;
+				rankText = result.data[index].metrics.marketcap.rank;// 순위 - rank 오류시 idx로 대체할 것
 				nameText = result.data[index].name;// 이름
 				symbolText = result.data[index].symbol;// 심볼
-				priceText = result.data[index].metrics.market_data.price_usd;	// 가격 usd
-					priceText = priceLength(priceText);									// 가격 범위별 소수점 자리수 결정
+				priceText = result.data[index].metrics.market_data.price_usd;// 가격 usd
+					priceText = priceLength(priceText);// 가격 범위별 소수점 자리수 결정
 				priceBtcText = result.data[index].metrics.market_data.price_btc;
 					priceBtcText = parseFloat(priceBtcText).toFixed(8);
-				changeText = result.data[index].metrics.market_data.percent_change_usd_last_24_hours;	// 가격변동% 24h
-					changeText = parseFloat(changeText).toFixed(2);													// 가격변동% 24h - 소수점2자리 표시
-					console.log("changeText의 type: " +typeof changeText); // type 체크
+				changeText = result.data[index].metrics.market_data.percent_change_usd_last_24_hours;// 가격변동% 24h
+					changeValue = parseFloat(changeText);
+					//console.log("changeValue의 type: " +typeof changeValue); // type 체크 (완료: number)
+					changeText = changeValue.toFixed(2);// 가격변동% 24h - 소수점2자리 표시
+					//console.log("changeText의 type: " +typeof changeText); // type 체크 (완료: string)
+					// 24시간 가격변동 +/- 에 따라 글자색 변경
+					if (changeValue == 0){
+						coloredChange = changeText+ "%";
+					}
+					if (changeValue > 0){
+						coloredChange = "<span class='text-success'>▲" +changeText +"% </span>"
+					}
+					if (changeValue < 0){
+						coloredChange = "<span class='text-danger'>▼" +changeText +"% </span>"
+					}
+					
 				volText = result.data[index].metrics.market_data.real_volume_last_24_hours// 실제 거래량 24h
 					volText = parseInt(volText).toLocaleString('ko-KR');;
 				mcapText = result.data[index].metrics.marketcap.current_marketcap_usd;// 시가총액
 					mcapText = parseInt(mcapText).toLocaleString('ko-KR');;
-				//iconURL = "<img src='https://cryptoicons.org/api/color/" +result.data[index].symbol.toLowerCase()+ "/20' />";
 				
 				// images source - https://github.com/ErikThiart/cryptocurrency-icons
 				iconURL = "<img src='https://raw.githubusercontent.com/ErikThiart/cryptocurrency-icons/master/16/" +result.data[index].slug+ ".png' height='16' width='16' />";
@@ -92,14 +124,15 @@
 					
 					
 				str += "<tr>";
-				str += "<td>" +rankText+ "</td>";
+				//str += "<td>" +rankText+ "</td>";// rank 오류시 idx로 교체할 것.
+				str += "<td>" +idx+ "</td>";// rank 오류시 idx로 교체할 것.
 				str += "<td>" +"☆"+ "</td>";// favorite 테이블과 비교해서 별표 색깔 변경 symbol에 있으면 노란별, symbol에 없으면 회색별 -------------------------------- todo
-				str += "<th scope='row'>" +iconURL+ " " +nameText+ " <small class='text-muted'>" +symbolText+ "</small></th>";// 링크 삽입 상세정보 페이지로 이동 ---- todo
-				str += "<td class='text-end'>" +priceText+ "</td>";
-				str += "<td class='text-end'>" +priceBtcText+ "</td>";
-				str += "<td class='text-end'>" +changeText+ "% </td>";
-				str += "<td class='text-end'>" +volText+ "</td>";
-				str += "<td class='text-end'>" +mcapText+ "</td>";
+				str += "<th scope='row'>" +iconURL+ " " + "<a href='" + "./info.jsp?cSymbol=" +symbolText+ "'>" +nameText+ "</a>" + " <small class='text-muted'>" +symbolText+ "</small></th>";// 링크 삽입 상세정보 페이지(info.jsp?symbol=xxx)로 이동 ---- todo
+				str += "<td class='text-end'><strong>" +priceText+ "</strong></td>";
+				str += "<td class='text-end'><small><strong>" +priceBtcText+ "</strong></small></td>";
+				str += "<td class='text-end'><small><strong>" +coloredChange+ "</strong></small></td>";
+				str += "<td class='text-end'><small><strong>" +volText+ "</strong></small></td>";
+				str += "<td class='text-end'><small><strong>" +mcapText+ "</strong></small></td>";
 				str += "</tr>";
 			}
 			$("#assetList").empty().append(str);
@@ -174,11 +207,7 @@
 						
 			return result;
 		}
-		
-		
 	});
-	
-	
 	
 	</script>
 
@@ -192,22 +221,22 @@
 <!-- end of Upper Nav bar -->
 
 <div class="container-fluid">
-	<div class="row">
+	<div class="row mt-3">
 		<!-- List -->
-		<div class="col-sm-12 col-md-8 col-lg-8 px-1">
+		<div id="cryptoList" class="col-sm-12 col-md-8 col-lg-8 px-1">
 			<p class="h2"><strong>Crypto List</strong></p>
 			
 			<table id="listTable" class="table table-sm table-hover table-striped">
 				<thead>
 					<tr class="table-dark">
-						<th scope="col">#</th>
-						<th scope="col">★</th>
-						<th scope="col" class="text-center">Asset</th>
-						<th scope="col" class="text-center">Price<br/><small>(USD)</small></th>
-						<th scope="col" class="text-center">Price<br/><small>(BTC)</small></th>
-						<th scope="col" class="text-center">Change USD<br/><small>24h</small></th>
-						<th scope="col" class="text-center">Real Volume<br/><small>24h (USD)</small></th>
-						<th scope="col" class="text-center">Market Cap.<br/><small>(USD)</small></th>
+						<td scope="col">#</td>
+						<td scope="col">★</td>
+						<td scope="col" class="text-center">Asset</td>
+						<td scope="col" class="text-center">Price<br/><small>(USD)</small></td>
+						<td scope="col" class="text-center">Price<br/><small>(BTC)</small></td>
+						<td scope="col" class="text-center">Change<br/><small>USD 24h</small></td>
+						<td scope="col" class="text-center">Real Volume<br/><small>24h (USD)</small></td>
+						<td scope="col" class="text-center">Market Cap.<br/><small>(USD)</small></td>
 					</tr>
 				</thead>
 				<tbody id="assetList">
@@ -231,7 +260,13 @@
 			<p class="h2"><strong>News</strong></p>
 			<a href="https://cryptopanic.com/" target="_blank" data-news_feed="recent" data-bg_color="#FFFFFF" data-text_color="#333333" data-link_color="#0091C2" data-header_bg_color="#30343B" data-header_text_color="#FFFFFF" data-posts_limit="10" data-font_family="mono" data-font_size="12" class="CryptoPanicWidget">Latest News</a>
 			<script src="https://static.cryptopanic.com/static/js/widgets.min.js"></script>
-		
+			<hr/>
+			
+			<div id="copyRight" class="mt-3">
+				<img src="https://www.kogl.or.kr/images/front/sub/img_opencode4_m.jpg" /><br/>
+				<small class="text-muted"> 공공누리 제4유형으로 개방한 '대한민국정부상징체 글꼴(문화체육관광부)'을 이용하였으며,
+				해당 저작물은 '<a href="https://www.kogl.or.kr/" target=_blank>공공누리 홈페이지</a>'에서 무료로 다운받으실 수 있습니다.</small>
+			</div>
 		</div>
 		<!-- end of News Widget -->
 		

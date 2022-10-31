@@ -84,6 +84,7 @@
 			let str = "";
 			let symbolText = "";
 			str = "result.data.name 넘어온 값: " +result.data.name; // for test
+			
 			coinName = "<img src='https://raw.githubusercontent.com/ErikThiart/cryptocurrency-icons/master/64/" +result.data.slug+ ".png' height='32' width='32' /><strong> " +result.data.name+ "</strong>";
 			coinRank = "Rank #" +result.data.marketcap.rank;
 			console.log(str);
@@ -119,24 +120,25 @@
 			let consensus = result.data.profile.economics.consensus_and_emission.consensus.general_consensus_mechanism;
 			let cat = result.data.profile.general.overview.category;
 			
+			// Organization
 			for (index in result.data.profile.general.background.issuing_organizations) {
 				orgName = result.data.profile.general.background.issuing_organizations[index].name
 				orgLogo = result.data.profile.general.background.issuing_organizations[index].logo
-				$("#org").append("<img src='" +orgLogo+ "' height='18' width='18'/>" +orgName);
+				$("#org").append("<img src='" +orgLogo+ "' height='18' width='18'/>" +orgName+ " ");
 			}
 			
+			// Web site link
 			let oLinkStr = ""; 
 			for (index in result.data.profile.general.overview.official_links) {
 				oLink = result.data.profile.general.overview.official_links[index].link
 				oLinklName = result.data.profile.general.overview.official_links[index].name
 				
-				oLinkStr += "<a class='dropdown-item' href='" +oLink+ "'>" +oLinklName+ "</a>";
+				oLinkStr += "<a class='dropdown-item' href='" +oLink+ "' target=_blank><small>" +oLinklName+ " ↗</small></a>";
 			}
-			$("#oLink").empty().append();
-			console.log(oLinkStr);
+			//console.log(oLinkStr);// for test (완료)
+			$("#oLink").empty().append(oLinkStr); 
 			
-			console.log(consensus);
-			$("#coinSymbol").empty().append(coinSymbol);
+			$("#coinSymbol").empty().append("<strong>" +coinSymbol+ "</strong>");
 			$("#consensus").empty().append(consensus);
 			$("#cat").empty().append(cat);
 		}
@@ -168,15 +170,15 @@
 					<span id="consensus" class="badge bg-secondary">rank</span>
 					<span id="cat" class="badge bg-secondary">category</span>
 				</p>
-				<p>Organizations: <span id="org"></span></p>
+				<p><small><strong>Organizations <span id="org"></span></strong></small></p>
 				<p>
 					<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
 						<button type="button" class="btn btn-success">Web-site</button>
 						<div class="btn-group" role="group">
 							<button id="btnGroupDrop1" type="button" class="btn btn-sm btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 							<div id="oLink" class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-								<a class="dropdown-item" href="#">coinmarketcap.com</a>
-								<a class="dropdown-item" href="#">Dropdown link</a>
+								<a class="dropdown-item" href="#">Sample 1</a>
+								<a class="dropdown-item" href="#">Sample 2</a>
 							</div>
 						</div>
 					</div>

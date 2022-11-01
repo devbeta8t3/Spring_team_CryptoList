@@ -17,6 +17,7 @@
         <li class="nav-item">
           <a class="nav-link" href="./list.jsp">TOP 100</a>
         </li>
+        <!-- 즐겨찾기는 로그인 메뉴 -->
         <li class="nav-item">
           <a class="nav-link" href="./favor.jsp">즐겨찾기</a>
         </li>
@@ -37,9 +38,12 @@
         <!-- 추가 메뉴 예비코드 끝 -->
       </ul>
       <form class="d-flex">
-        <!-- <input class="form-control me-sm-2" type="text" placeholder="Search"> -->
+        <!-- 비로그인 메뉴 -->
         <button class="btn btn-primary my-2 my-sm-0 mx-2" type="button">로그인</button>
         <button class="btn btn-danger my-2 my-sm-0" type="button">회원가입</button>
+        <!-- 로그인 메뉴 -->
+        <button class="btn btn-outline-success my-2 my-sm-0 mx-2" type="button">[김코인]님 접속중</button>
+        <button class="btn btn-warning my-2 my-sm-0" type="button">회원정보</button>
       </form>
     </div>
   </div>

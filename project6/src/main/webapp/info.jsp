@@ -9,20 +9,39 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 	
+	<!-- Font-Awesome Icons -->
+	<script src="https://kit.fontawesome.com/9ddb6abce0.js" crossorigin="anonymous"></script> 
+	
 	<!-- Inner Style CSS -->
 	<style type="text/css">
-	
-	@font-face{
-		src: url("./ROKG_R.TTF");
-		font-family: "ROKG"; 
-	}
-	body {
-		font-family: "ROKG", "맑은 고딕", verdana, san-serif;
-	}
-	#info {
-		font-family: "맑은 고딕", verdana, san-serif;
-	}
-	
+		/* 폰트 설정 */
+		@font-face {
+			src: url("./ROKG_R.TTF");
+			font-family: "ROKG";
+		}
+		body {
+			font-family: "ROKG", "맑은 고딕", verdana, san-serif;
+		}
+		#info, #info2, #info3 {
+			font-family: "맑은 고딕", verdana, san-serif;
+		}
+		
+		/* 내용 text 줄이기 */
+		.reduce {
+			width: 100%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		
+		.text-tomato {
+			color: tomato;
+		}
+		.bg-tomato {
+			background: tomato;
+		}
+				
+		
 	</style>
 	
 	
@@ -82,16 +101,129 @@
 		});
 		function metricParsing(result) {
 			let str = "";
-			let symbolText = "";
-			str = "result.data.name 넘어온 값: " +result.data.name; // for test
+			//str = "result.data.name 넘어온 값: " +result.data.name; // for test (done)
+			//console.log(str); // for test (done)
+			//$("#testSymbol").empty().append(str); // for test (done)
 			
-			coinName = "<img src='https://raw.githubusercontent.com/ErikThiart/cryptocurrency-icons/master/64/" +result.data.slug+ ".png' height='32' width='32' /><strong> " +result.data.name+ "</strong>";
-			coinRank = "Rank #" +result.data.marketcap.rank;
-			console.log(str);
+			// Coin 이름, 랭킹
+			let coinName = "<img src='https://raw.githubusercontent.com/ErikThiart/cryptocurrency-icons/master/64/" +result.data.slug+ ".png' height='32' width='32' /><strong> " +result.data.name+ "</strong>";
+			let coinRank = "Rank #" +result.data.marketcap.rank;
 			$("#coinName").empty().append(coinName);
 			$("#coinRank").empty().append(coinRank);
 			
-			$("#testSymbol").empty().append(str); // for test
+			// reddit
+			$("#redditActive").empty().append("<small><strong>" +result.data.reddit.active_user_count.toLocaleString('ko-KR')+ "</strong></small>");
+			$("#redditSubscrib").empty().append("<small><strong>" +result.data.reddit.subscribers.toLocaleString('ko-KR')+ "</strong></small>");
+			
+			// $("").empty().append();
+			
+			// 이름 ex) Etherium (ETH)
+			let priceTitle = result.data.name+ " Price (" +result.data.symbol+ ")";
+			$("#priceTitle").empty().append(priceTitle);
+			// 현재가 USD
+			let infoPrice = priceLength(result.data.market_data.price_usd);
+			$("#infoPrice").empty().append("$" +infoPrice);
+			let usd24 = parseFloat(result.data.market_data.percent_change_usd_last_24_hours);// number
+			let usd24Text = usd24.toFixed(2);//string
+			if (usd24 == 0){
+				changeUsd24 = usd24Text+ "%";
+				$("#usd24").empty().addClass("bg-secondary").addClass("text-light").append(changeUsd24);
+			}
+			if (usd24 > 0){
+				changeUsd24 = "▲ " +usd24Text +"%"
+				$("#usd24").empty().addClass("bg-success").addClass("text-light").append(changeUsd24);
+			}
+			if (usd24 < 0){
+				changeUsd24 = "▼ " +usd24Text +"%";
+				$("#usd24").empty().addClass("bg-danger").addClass("text-light").append(changeUsd24);
+			}
+			// 현재가 BTC
+			let infoPriceBTC = result.data.market_data.price_btc.toFixed(8);
+			$("#infoPriceBTC").empty().append(infoPriceBTC+ " BTC");
+			let btc24 = parseFloat(result.data.market_data.percent_change_btc_last_24_hours);// number
+			let btc24Text = btc24.toFixed(2);
+			
+			if (btc24 == 0){
+				changeBTC24 = btc24Text+ "%";
+				$("#btc24").empty().append(changeBTC24);
+			}
+			if (btc24 > 0){
+				changeBTC24 = "▲ " +btc24Text+ "%";
+				$("#btc24").empty().addClass("text-success").append(changeBTC24);
+			}
+			if (btc24 < 0){
+				changeBTC24 = "▼ " +btc24Text+ "%";
+				$("#btc24").empty().addClass("text-danger").append(changeBTC24);
+			}
+			// 현재가 ETH
+			let infoPriceETH = result.data.market_data.price_eth.toFixed(8);
+			$("#infoPriceETH").empty().append(infoPriceETH+ " ETH");
+			let eth24 = parseFloat(result.data.market_data.percent_change_eth_last_24_hours);// number
+			console.log(eth24);
+			let eth24Text = eth24.toFixed(2);// string
+			
+			if (eth24 == 0){
+				changeETH24 = eth24Text+ "%";
+				$("#eth24").empty().append(changeETH24);
+			}
+			if (eth24 > 0){
+				changeETH24 = "▲ " +eth24Text+ "%";
+				$("#eth24").empty().addClass("text-success").append(changeETH24);
+			}
+			if (eth24 < 0){
+				changeETH24 = "▼ " +eth24Text+ "%";
+				$("#eth24").empty().addClass("text-danger").append(changeETH24);
+			}
+			
+			// real volume
+			$("#vol24").empty().append(result.data.market_data.real_volume_last_24_hours.toLocaleString('ko-KR', {maximumFractionDigits: 0})+ " USD");
+			// volume
+			$("#vol24simple").empty().append(result.data.market_data.volume_last_24_hours.toLocaleString('ko-KR', {maximumFractionDigits: 0})+ " USD");
+			// m.cap
+			$("#mCap").empty().append(result.data.marketcap.current_marketcap_usd.toLocaleString('ko-KR', {maximumFractionDigits: 0})+ " USD");
+			$("#dom").empty().append(result.data.marketcap.marketcap_dominance_percent.toLocaleString('ko-KR', {maximumFractionDigits: 1})+ " %");
+			
+			// supply
+			result.data.supply.annual_inflation_percent
+			result.data.supply.circulating
+			result.data.supply.y_plus10
+			data.supply.y_2050
+			
+			// ath
+			result.data.all_time_high.at
+			result.data.all_time_high.price
+			result.data.all_time_high.percent_down
+			// cycle low
+			result.data.cycle_low.at
+			result.data.cycle_low.price
+			result.data.cycle_low.percent_up
+			
+			
+			// onchain
+			result.data.on_chain_data.active_addresses
+			result.data.on_chain_data.addresses_count
+			result.data.on_chain_data.average_fee_native_units
+			result.data.on_chain_data.average_fee_usd
+			
+			// roi
+			result.data.roi_data.percent_change_eth_last_1_week
+			result.data.roi_data.percent_change_last_1_month
+			result.data.roi_data.percent_change_last_3_months
+			result.data.roi_data.percent_change_last_1_year
+			result.data.roi_data.percent_change_year_to_date
+			// roi year
+			result.data.roi_by_year["2011_usd_percent"]
+			result.data.roi_by_year["2012_usd_percent"]
+			result.data.roi_by_year["2013_usd_percent"]
+			result.data.roi_by_year["2014_usd_percent"]
+			result.data.roi_by_year["2015_usd_percent"]
+			result.data.roi_by_year["2016_usd_percent"]
+			result.data.roi_by_year["2017_usd_percent"]
+			result.data.roi_by_year["2018_usd_percent"]
+			result.data.roi_by_year["2019_usd_percent"]
+			result.data.roi_by_year["2020_usd_percent"]
+			result.data.roi_by_year["2021_usd_percent"]
+			
 		}
 		
 	});
@@ -120,11 +252,18 @@
 			let consensus = result.data.profile.economics.consensus_and_emission.consensus.general_consensus_mechanism;
 			let cat = result.data.profile.general.overview.category;
 			
+			$("#coinSymbol").empty().append("<strong>" +coinSymbol+ "</strong>");
+			$("#consensus").empty().append(consensus);
+			$("#cat").empty().append(cat);
+			
 			// Organization
-			for (index in result.data.profile.general.background.issuing_organizations) {
-				orgName = result.data.profile.general.background.issuing_organizations[index].name
-				orgLogo = result.data.profile.general.background.issuing_organizations[index].logo
-				$("#org").append("<img src='" +orgLogo+ "' height='18' width='18'/>" +orgName+ " ");
+			if (result.data.profile.general.background.issuing_organizations != 0) {
+				let org = "<span class='badge rounded-pill bg-success'>Organizations</span> ";
+				for (index in result.data.profile.general.background.issuing_organizations) {
+					orgName = result.data.profile.general.background.issuing_organizations[index].name
+					orgLogo = result.data.profile.general.background.issuing_organizations[index].logo
+					$("#org").append(org+ "<img src='" +orgLogo+ "' height='18' width='18'/>" +orgName+ " ");
+				}
 			}
 			
 			// Web site link
@@ -133,17 +272,66 @@
 				oLink = result.data.profile.general.overview.official_links[index].link
 				oLinklName = result.data.profile.general.overview.official_links[index].name
 				
-				oLinkStr += "<a class='dropdown-item' href='" +oLink+ "' target=_blank><small>" +oLinklName+ " ↗</small></a>";
+				oLinkStr += "<a class='dropdown-item' href='" +oLink+ "' target=_blank><small>" +oLinklName+ " </small><i class='fa-solid fa-arrow-up-right-from-square'></i></a>";
 			}
 			//console.log(oLinkStr);// for test (완료)
 			$("#oLink").empty().append(oLinkStr); 
 			
-			$("#coinSymbol").empty().append("<strong>" +coinSymbol+ "</strong>");
-			$("#consensus").empty().append(consensus);
-			$("#cat").empty().append(cat);
+			// 알려진 공격 및 취약점
+			if (result.data.profile.technology.security.known_exploits_and_vulnerabilities.length != 0){
+				
+				let attackStr = "<span class='badge rounded-pill bg-danger mb-1'>알려진 공격 및 취약점</span><br/><div class='list-group'>";
+				for (index in result.data.profile.technology.security.known_exploits_and_vulnerabilities) {
+					date = result.data.profile.technology.security.known_exploits_and_vulnerabilities[index].date;
+					title = result.data.profile.technology.security.known_exploits_and_vulnerabilities[index].title;
+					type = result.data.profile.technology.security.known_exploits_and_vulnerabilities[index].type;
+					details = result.data.profile.technology.security.known_exploits_and_vulnerabilities[index].details;
+					
+					attackStr += "<a href='' class='list-group-item list-group-item-action flex-column align-items-start border-danger'>";
+					attackStr += "		<div class='d-flex w-100 justify-content-between'>";
+					attackStr += "			<h5 class='mb-1'>" +title+ "</h5>";
+					attackStr += "			<small>" +date+ "</small>";
+					attackStr += "		</div>";
+					attackStr += "		<p class='mb-0'>" +type+ "</p>";
+					attackStr += "		<div class='reduce'><small>" +details+ "</small>";
+					attackStr += "		</div>";
+					attackStr += "</a>";
+				}
+				attackStr += "</div>";
+				//console.log(attackStr);// for test (완료)
+				$("#attack").empty().append(attackStr); 
+			}
+			
+			
+			
 		}
 	});
+	
+	// 가격(usd) 소수점 표시
+	function priceLength(numberStr){
 		
+		let number = parseFloat(numberStr);
+		let result = 0.0;
+		// 가격이 100 이상이면 소수점 2자리까지 표시
+		if (number >= 100){
+			result = parseFloat(numberStr).toFixed(2);
+		}
+		// 100 > 가격 >= 10 이면 소수점 3자리까지 표시
+		if (number < 100 & number >= 10){
+			result = parseFloat(numberStr).toFixed(3);
+		}
+		// 10 > 가격 >= 1 이면 소수점 4자리까지 표시
+		if (number < 10 & number >= 1){
+			result = parseFloat(numberStr).toFixed(4);
+		}
+		// 가격이 1 미만이면 소수점 5자리까지 표시
+		if (number < 1){
+			result = parseFloat(numberStr).toFixed(5);
+		}
+					
+		return result;
+	}
+	
 	</script>
 
 
@@ -159,38 +347,67 @@
 	<div class="row">
 	
 		<!-- Infomations -->
-		<div class="col-sm-12 col-md-6 col-lg-8 px-1">
-			
-			<!-- Info from api data -->
-			<div id="info" class="mt-3">
-			
-				<p><span id="coinName" class="h2">coinName</span><button type="button" id="coinSymbol" class="btn btn-primary btn-sm mx-2">coinSymbol</button></p>
-				<p>
-					<span id="coinRank" class="badge bg-secondary mx-1">rank</span>
-					<span id="consensus" class="badge bg-secondary">rank</span>
-					<span id="cat" class="badge bg-secondary">category</span>
-				</p>
-				<p><small><strong>Organizations <span id="org"></span></strong></small></p>
-				<p>
-					<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-						<button type="button" class="btn btn-success">Web-site</button>
-						<div class="btn-group" role="group">
-							<button id="btnGroupDrop1" type="button" class="btn btn-sm btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-							<div id="oLink" class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-								<a class="dropdown-item" href="#">Sample 1</a>
-								<a class="dropdown-item" href="#">Sample 2</a>
+		<div class="row col-sm-12 col-md-6 col-lg-8 px-1">
+			<div class="col-lg-4 border border-secondary">
+				<!-- Basic Info from api data -->
+				<div id="info" class="mt-3">
+				
+					<p><span id="coinName" class="h2">coinName</span><button type="button" id="coinSymbol" class="btn btn-primary btn-sm mx-2">coinSymbol</button></p>
+					<p>
+						<span id="coinRank" class="badge bg-secondary mx-1">rank</span>
+						<span id="consensus" class="badge bg-secondary mx-1">consensus</span>
+						<span id="cat" class="badge bg-secondary mx-1">category</span>
+					</p>
+					<hr/>
+					<p><small><strong><span id="org"></span></strong></small></p>
+					<p><!-- 웹사이트 링크 -->
+						<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+							<button type="button" id="wSite" class="btn btn-sm btn-success py-0">Web-site Link</button>
+							<div class="btn-group" role="group">
+								<button id="btnGroupDrop1" type="button" class="btn btn-sm btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+								<div id="oLink" class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+									<a class="dropdown-item" href="#">none</a>
+									<a class="dropdown-item" href="#">none</a>
+								</div>
 							</div>
 						</div>
-					</div>
+						<!-- Reddit -->
+						<i class="fa-brands fa-reddit fa-2xl text-tomato mx-2"></i>
+						<i class="fa-regular fa-thumbs-up text-tomato"></i><span id="redditActive" class="text-tomato">Active</span>
+						<i class="fa-solid fa-user text-tomato"></i><span id="redditSubscrib" class="text-tomato">Subscribers</span>
 					</p>
-					<p>응답 type: <strong>json </strong></p>
-				<hr/>
-				<p id="testSymbol">Loading...</p>
-				
-				
+					<hr/>
+					<div id="attack"><span class='badge rounded-pill bg-danger mb-1'>알려진 공격 및 취약점 없음</span><br/></div>
+				</div>
+				<!-- end of Basic Info from api data -->
 			</div>
-			<!-- end of Info from api data -->
 			
+			<!-- Price, Supply, Onchain Info -->
+			<div id="info2" class="col-lg-4 border border-secondary">
+				<!-- Price -->
+				<div>
+					<small><strong><span id="priceTitle" class="text-muted">priceTitle</span></strong></small><br/>
+					<span id="infoPrice" class="h2 fw-bold">infoPrice</span> <button type="button" id="usd24" class="btn btn-sm mx-2">24h %</button><br/>
+					<span id="infoPriceBTC" class="h5 fw-bold text-muted">infoPriceBTC</span><small><span id="btc24" class="fw-bold mx-2"></span></small><br/>
+					<span id="infoPriceETH" class="h5 fw-bold text-muted">infoPriceETH</span><small><span id="eth24" class="fw-bold mx-2"></span></small><hr/>
+				</div>
+				<!-- Vol, M.Cap, Supply -->
+				<div>
+					<small><span class="badge rounded-pill bg-dark mx-2">Real Volume</span><span id="vol24" class="fw-bold">real vol24</span><span class="badge bg-secondary mx-2">24h</span></small><br/>
+					<small><span class="badge rounded-pill bg-dark mx-2">&nbsp&nbsp Volume &nbsp&nbsp</span><span id="vol24simple" class="fw-bold">vol24</span><span class="badge bg-secondary mx-2">24h</span></small><br/>
+					<small><span class="badge rounded-pill bg-dark mx-2">Market Cap.</span><span id="mCap" class="fw-bold">mCap</span><span id="dom" class="badge bg-danger mx-2">dom.</span></small><br/>
+					<small><span class="badge rounded-pill bg-dark mx-2">Supply</span><span id="supply">supply</span></small><br/>
+				</div>
+			</div>
+			<!-- end fo Price, Supply, Onchain Info -->
+			
+			<!-- ROI Info -->
+			<div id="info3" class="col-lg-4 border border-secondary">
+				<p>세번째</p>
+			</div>
+			<!-- end of ROI Info -->
+			
+				
 			<!-- TradingView Widget BEGIN -->
 			<div class="tradingview-widget-container">
 			  <div id="tradingview_f9f55" style="height: 300px;"></div>			<!-- 스타일 나중에 css에 작성-------------------todo -->

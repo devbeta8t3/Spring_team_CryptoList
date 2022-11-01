@@ -9,6 +9,9 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 	
+	<!-- Font-Awesome Icons -->
+	<script src="https://kit.fontawesome.com/9ddb6abce0.js" crossorigin="anonymous"></script> 
+	
 	<!-- Inner Style -->
 	<style type="text/css">
 		/* 페이징 처리를 위한 스타일 */
@@ -107,10 +110,10 @@
 						coloredChange = changeText+ "%";
 					}
 					if (changeValue > 0){
-						coloredChange = "<span class='text-success'>▲" +changeText +"% </span>"
+						coloredChange = "<span class='text-success'>▲" +changeText +"% </span>";
 					}
 					if (changeValue < 0){
-						coloredChange = "<span class='text-danger'>▼" +changeText +"% </span>"
+						coloredChange = "<span class='text-danger'>▼" +changeText +"% </span>";
 					}
 					
 				volText = result.data[index].metrics.market_data.real_volume_last_24_hours// 실제 거래량 24h

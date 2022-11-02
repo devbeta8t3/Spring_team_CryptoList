@@ -77,6 +77,8 @@
 				//alert("요청에 의한 응답 성공 값 : " +result);
 				console.log(result);	// response된 json 확인 (완료)
 				listParsing(result);	// 가독성 위해 따로 작성
+				getDB();
+				
 			},
 			error : function(xhr, status, msg) {	// 통신 실패시 호출하는 함수
 				alert('Getting data from server has failed.');
@@ -85,10 +87,23 @@
 			}
 			
 		});
+		function getDB(){
+			$.ajax({
+				url : "/api/v2/assets",	// 콘트롤러 주소 - 이주소를 받는 함수를 컨트롤러에 짜야한다. 콘트롤러에서 responseEntity (project4. SampleController ex06)
+				data : "u_id=" +sessionId,	//요청 파라미터
+				type : "GET", //전송타입
+				dataType : "json", //응답타입
+				success : function(result){
+					compare()	
+				}
+			
+			});
+		}
 		function listParsing(result) {
 			let str = "";
 			let symbolText = "";
 			let idx = 0;
+			let favStar = "☆"; // 즐겨찾기 별
 						
 			for (index in result.data){
 				
@@ -117,19 +132,22 @@
 					}
 					
 				volText = result.data[index].metrics.market_data.real_volume_last_24_hours// 실제 거래량 24h
-					volText = parseInt(volText).toLocaleString('ko-KR');;
+					volText = parseInt(volText).toLocaleString('ko-KR');
 				mcapText = result.data[index].metrics.marketcap.current_marketcap_usd;// 시가총액
-					mcapText = parseInt(mcapText).toLocaleString('ko-KR');;
+					mcapText = parseInt(mcapText).toLocaleString('ko-KR');
 				
 				// images source - https://github.com/ErikThiart/cryptocurrency-icons
 				iconURL = "<img src='https://raw.githubusercontent.com/ErikThiart/cryptocurrency-icons/master/16/" +result.data[index].slug+ ".png' height='16' width='16' />";
 				
-					
+				// 즐겨찾기에 포함된 코인인지 확인
+				if (false){
+					favStar = "<span class='text-warning'>★</span>" 
+				}
 					
 				str += "<tr>";
 				//str += "<td>" +rankText+ "</td>";// rank 오류시 idx로 교체할 것.
 				str += "<td>" +idx+ "</td>";// rank 오류시 idx로 교체할 것.
-				str += "<td>" +"☆"+ "</td>";// favorite 테이블과 비교해서 별표 색깔 변경 symbol에 있으면 노란별, symbol에 없으면 회색별 -------------------------------- todo
+				str += "<td>" +favStar+ "</td>";// favorite 테이블과 비교해서 별표 색깔 변경 symbol에 있으면 노란별, symbol에 없으면 그냥별 -------------------------------- todo
 				str += "<th scope='row'>" +iconURL+ " " + "<a href='" + "./info.jsp?cSymbol=" +symbolText+ "'>" +nameText+ "</a>" + " <small class='text-muted'>" +symbolText+ "</small></th>";// 링크 삽입 상세정보 페이지(info.jsp?symbol=xxx)로 이동 ---- todo
 				str += "<td class='text-end'><strong>" +priceText+ "</strong></td>";
 				str += "<td class='text-end'><small><strong>" +priceBtcText+ "</strong></small></td>";

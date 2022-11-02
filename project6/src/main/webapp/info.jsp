@@ -34,6 +34,32 @@
 			text-overflow: ellipsis;
 		}
 		
+		/* Tooltip */
+		.tooltip {
+			position: relative;
+			display: inline-block;
+			border-bottom: 1px dotted black;
+		}
+		
+		.tooltip .tooltiptext {
+			visibility: hidden;
+			width: 120px;
+			background-color: black;
+			color: #fff;
+			text-align: center;
+			border-radius: 6px;
+			padding: 5px 0;
+		
+			/* Position the tooltip */
+			position: absolute;
+			z-index: 1;
+		}
+		
+		.tooltip:hover .tooltiptext {
+			visibility: visible;
+		}
+		
+		/* class 색깔 정의 */
 		.text-tomato {
 			color: tomato;
 		}
@@ -111,12 +137,6 @@
 			$("#coinName").empty().append(coinName);
 			$("#coinRank").empty().append(coinRank);
 			
-			// reddit
-			$("#redditActive").empty().append("<small><strong>" +result.data.reddit.active_user_count.toLocaleString('ko-KR')+ "</strong></small>");
-			$("#redditSubscrib").empty().append("<small><strong>" +result.data.reddit.subscribers.toLocaleString('ko-KR')+ "</strong></small>");
-			
-			// $("").empty().append();
-			
 			// 이름 ex) Etherium (ETH)
 			let priceTitle = result.data.name+ " Price (" +result.data.symbol+ ")";
 			$("#priceTitle").empty().append(priceTitle);
@@ -159,7 +179,7 @@
 			let infoPriceETH = result.data.market_data.price_eth.toFixed(8);
 			$("#infoPriceETH").empty().append(infoPriceETH+ " ETH");
 			let eth24 = parseFloat(result.data.market_data.percent_change_eth_last_24_hours);// number
-			console.log(eth24);
+			//console.log(eth24);// 값 확인 (완료)
 			let eth24Text = eth24.toFixed(2);// string
 			
 			if (eth24 == 0){
@@ -184,45 +204,88 @@
 			$("#dom").empty().append(result.data.marketcap.marketcap_dominance_percent.toLocaleString('ko-KR', {maximumFractionDigits: 1})+ " %");
 			
 			// supply
-			result.data.supply.annual_inflation_percent
-			result.data.supply.circulating
-			result.data.supply.y_plus10
-			data.supply.y_2050
-			
-			// ath
-			result.data.all_time_high.at
-			result.data.all_time_high.price
-			result.data.all_time_high.percent_down
-			// cycle low
-			result.data.cycle_low.at
-			result.data.cycle_low.price
-			result.data.cycle_low.percent_up
-			
+			if (result.data.supply.annual_inflation_percent != null){
+				$("#supplyInflation").empty().append(result.data.supply.annual_inflation_percent.toFixed(4)+ "%");
+			}
+			if (result.data.supply.circulating != null){
+				$("#supplyCircul").empty().append(result.data.supply.circulating.toLocaleString('ko-KR', {maximumFractionDigits: 0})+ " " +result.data.symbol);
+			}
+			if (result.data.supply.y_plus10 != null){
+				$("#supplyPlus10").empty().append(result.data.supply.y_plus10.toLocaleString('ko-KR', {maximumFractionDigits: 0})+ " " +result.data.symbol);
+			}
+			if (result.data.supply.y_2050 != null){
+				$("#supplyY2050").empty().append(result.data.supply.y_2050.toLocaleString('ko-KR', {maximumFractionDigits: 0})+ " " +result.data.symbol);
+			}
 			
 			// onchain
-			result.data.on_chain_data.active_addresses
-			result.data.on_chain_data.addresses_count
-			result.data.on_chain_data.average_fee_native_units
-			result.data.on_chain_data.average_fee_usd
+			if (result.data.on_chain_data.active_addresses != null){
+				$("#addrActive").empty().append(" " +result.data.on_chain_data.active_addresses.toLocaleString('ko-KR'));
+			}
+			if (result.data.on_chain_data.addresses_count != null){
+				$("#addrCnt").empty().append(" " +result.data.on_chain_data.addresses_count.toLocaleString('ko-KR'));
+			}
+			if (result.data.on_chain_data.block_height != null){
+				$("#blockHeight").empty().append(" " +result.data.on_chain_data.block_height.toLocaleString('ko-KR'));
+			}
+			$("#blockInterval").empty().append(" " +result.data.on_chain_data.average_block_interval.toFixed(2));
+			if (result.data.on_chain_data.average_fee_usd != null){
+				$("#feeUsd").empty().append(" " +result.data.on_chain_data.average_fee_usd.toLocaleString('ko-KR', {maximumFractionDigits: 4}));
+			}
+			if (result.data.on_chain_data.realized_marketcap_usd != null){
+				$("#realizedMCap").empty().append(" " +result.data.on_chain_data.realized_marketcap_usd.toLocaleString('ko-KR', {maximumFractionDigits: 0}));
+			}
+			
+			// ath
+			$("#athAt").empty().append(" " +result.data.all_time_high.at.substr(0, 10));
+			$("#athPrice").empty().append(" " +priceLength(result.data.all_time_high.price));
+			$("#athDown").empty().append(" " +result.data.all_time_high.percent_down.toFixed(2));
+			
+			// cycle low
+			$("#lowAt").empty().append(" " +result.data.cycle_low.at.substr(0, 10));
+			$("#lowPrice").empty().append(" " +priceLength(result.data.cycle_low.price));
+			$("#lowUp").empty().append(" " +result.data.cycle_low.percent_up.toFixed(2));
 			
 			// roi
-			result.data.roi_data.percent_change_eth_last_1_week
-			result.data.roi_data.percent_change_last_1_month
-			result.data.roi_data.percent_change_last_3_months
-			result.data.roi_data.percent_change_last_1_year
-			result.data.roi_data.percent_change_year_to_date
+			$("#roi1w").empty().append(result.data.roi_data.percent_change_eth_last_1_week.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
+			$("#roi1m").empty().append(result.data.roi_data.percent_change_last_1_month.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
+			$("#roi3m").empty().append(result.data.roi_data.percent_change_last_3_months.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
+			$("#roi1y").empty().append(result.data.roi_data.percent_change_last_1_year.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
+			$("#roiYTD").empty().append(result.data.roi_data.percent_change_year_to_date.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
+			
 			// roi year
-			result.data.roi_by_year["2011_usd_percent"]
-			result.data.roi_by_year["2012_usd_percent"]
-			result.data.roi_by_year["2013_usd_percent"]
-			result.data.roi_by_year["2014_usd_percent"]
-			result.data.roi_by_year["2015_usd_percent"]
-			result.data.roi_by_year["2016_usd_percent"]
-			result.data.roi_by_year["2017_usd_percent"]
-			result.data.roi_by_year["2018_usd_percent"]
-			result.data.roi_by_year["2019_usd_percent"]
-			result.data.roi_by_year["2020_usd_percent"]
-			result.data.roi_by_year["2021_usd_percent"]
+			if (result.data.roi_by_year["2011_usd_percent"] != null) {
+				$("#roi2011").empty().append(result.data.roi_by_year["2011_usd_percent"].toLocaleString('ko-KR', {maximumFractionDigits: 0}));
+			}
+			if (result.data.roi_by_year["2012_usd_percent"] != null) {
+				$("#roi2012").empty().append(result.data.roi_by_year["2012_usd_percent"].toLocaleString('ko-KR', {maximumFractionDigits: 0}));
+			}
+			if (result.data.roi_by_year["2013_usd_percent"] != null) {
+				$("#roi2013").empty().append(result.data.roi_by_year["2013_usd_percent"].toLocaleString('ko-KR', {maximumFractionDigits: 0}));
+			}
+			if (result.data.roi_by_year["2014_usd_percent"] != null) {
+				$("#roi2014").empty().append(result.data.roi_by_year["2014_usd_percent"].toLocaleString('ko-KR', {maximumFractionDigits: 0}));
+			}
+			if (result.data.roi_by_year["2015_usd_percent"] != null) {
+				$("#roi2015").empty().append(result.data.roi_by_year["2015_usd_percent"].toLocaleString('ko-KR', {maximumFractionDigits: 0}));
+			}
+			if (result.data.roi_by_year["2016_usd_percent"] != null) {
+				$("#roi2016").empty().append(result.data.roi_by_year["2016_usd_percent"].toLocaleString('ko-KR', {maximumFractionDigits: 0}));
+			}
+			if (result.data.roi_by_year["2017_usd_percent"] != null) {
+				$("#roi2017").empty().append(result.data.roi_by_year["2017_usd_percent"].toLocaleString('ko-KR', {maximumFractionDigits: 0}));
+			}
+			if (result.data.roi_by_year["2018_usd_percent"] != null) {
+				$("#roi2018").empty().append(result.data.roi_by_year["2018_usd_percent"].toLocaleString('ko-KR', {maximumFractionDigits: 0}));
+			}
+			if (result.data.roi_by_year["2019_usd_percent"] != null) {
+				$("#roi2019").empty().append(result.data.roi_by_year["2019_usd_percent"].toLocaleString('ko-KR', {maximumFractionDigits: 0}));
+			}
+			if (result.data.roi_by_year["2020_usd_percent"] != null) {
+				$("#roi2020").empty().append(result.data.roi_by_year["2020_usd_percent"].toLocaleString('ko-KR', {maximumFractionDigits: 0}));
+			}
+			if (result.data.roi_by_year["2021_usd_percent"] != null) {
+				$("#roi2021").empty().append(result.data.roi_by_year["2021_usd_percent"].toLocaleString('ko-KR', {maximumFractionDigits: 0}));
+			}
 			
 		}
 		
@@ -258,11 +321,10 @@
 			
 			// Organization
 			if (result.data.profile.general.background.issuing_organizations != 0) {
-				let org = "<span class='badge rounded-pill bg-success'>Organizations</span> ";
 				for (index in result.data.profile.general.background.issuing_organizations) {
 					orgName = result.data.profile.general.background.issuing_organizations[index].name
 					orgLogo = result.data.profile.general.background.issuing_organizations[index].logo
-					$("#org").append(org+ "<img src='" +orgLogo+ "' height='18' width='18'/>" +orgName+ " ");
+					$("#org").append(" <img src='" +orgLogo+ "' height='18' width='18'/>" +orgName+ " ");
 				}
 			}
 			
@@ -287,12 +349,12 @@
 					type = result.data.profile.technology.security.known_exploits_and_vulnerabilities[index].type;
 					details = result.data.profile.technology.security.known_exploits_and_vulnerabilities[index].details;
 					
-					attackStr += "<a href='' class='list-group-item list-group-item-action flex-column align-items-start border-danger'>";
+					attackStr += "<a href='' class='list-group-item list-group-item-action flex-column align-items-start border-danger' title='" +details+ "'>";
 					attackStr += "		<div class='d-flex w-100 justify-content-between'>";
 					attackStr += "			<h5 class='mb-1'>" +title+ "</h5>";
-					attackStr += "			<small>" +date+ "</small>";
+					attackStr += "			<small>" +date.substr(0, 10)+ "</small>";
 					attackStr += "		</div>";
-					attackStr += "		<p class='mb-0'>" +type+ "</p>";
+					attackStr += "		<p class='mb-0 fst-italic'>" +type+ "</p>";
 					attackStr += "		<div class='reduce'><small>" +details+ "</small>";
 					attackStr += "		</div>";
 					attackStr += "</a>";
@@ -314,19 +376,19 @@
 		let result = 0.0;
 		// 가격이 100 이상이면 소수점 2자리까지 표시
 		if (number >= 100){
-			result = parseFloat(numberStr).toFixed(2);
+			result = parseFloat(numberStr).toLocaleString('ko-KR', {maximumFractionDigits: 2}); // 1000단위 쉼표 & 소수점 자리수
 		}
 		// 100 > 가격 >= 10 이면 소수점 3자리까지 표시
 		if (number < 100 & number >= 10){
-			result = parseFloat(numberStr).toFixed(3);
+			result = parseFloat(numberStr).toLocaleString('ko-KR', {maximumFractionDigits: 3});
 		}
 		// 10 > 가격 >= 1 이면 소수점 4자리까지 표시
 		if (number < 10 & number >= 1){
-			result = parseFloat(numberStr).toFixed(4);
+			result = parseFloat(numberStr).toLocaleString('ko-KR', {maximumFractionDigits: 4});
 		}
 		// 가격이 1 미만이면 소수점 5자리까지 표시
 		if (number < 1){
-			result = parseFloat(numberStr).toFixed(5);
+			result = parseFloat(numberStr).toLocaleString('ko-KR', {maximumFractionDigits: 5});
 		}
 					
 		return result;
@@ -348,7 +410,7 @@
 	
 		<!-- Infomations -->
 		<div class="row col-sm-12 col-md-6 col-lg-8 px-1">
-			<div class="col-lg-4 border border-secondary">
+			<div class="col-lg-4">
 				<!-- Basic Info from api data -->
 				<div id="info" class="mt-3">
 				
@@ -359,10 +421,11 @@
 						<span id="cat" class="badge bg-secondary mx-1">category</span>
 					</p>
 					<hr/>
-					<p><small><strong><span id="org"></span></strong></small></p>
+					<!-- Organization -->
+					<p><small><strong><span class="badge rounded-pill bg-dark">Organizations</span><span id="org"></span></strong></small></p>
 					<p><!-- 웹사이트 링크 -->
 						<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-							<button type="button" id="wSite" class="btn btn-sm btn-success py-0">Web-site Link</button>
+							<button type="button" id="wSite" class="btn btn-sm btn-success py-0"><i class="fa-solid fa-link"></i> Web-site</button>
 							<div class="btn-group" role="group">
 								<button id="btnGroupDrop1" type="button" class="btn btn-sm btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
 								<div id="oLink" class="dropdown-menu" aria-labelledby="btnGroupDrop1">
@@ -371,21 +434,22 @@
 								</div>
 							</div>
 						</div>
-						<!-- Reddit -->
-						<i class="fa-brands fa-reddit fa-2xl text-tomato mx-2"></i>
-						<i class="fa-regular fa-thumbs-up text-tomato"></i><span id="redditActive" class="text-tomato">Active</span>
-						<i class="fa-solid fa-user text-tomato"></i><span id="redditSubscrib" class="text-tomato">Subscribers</span>
 					</p>
 					<hr/>
-					<div id="attack"><span class='badge rounded-pill bg-danger mb-1'>알려진 공격 및 취약점 없음</span><br/></div>
+					<div id="attack">
+						<span class="badge rounded-pill bg-danger mb-1">알려진 공격 및 취약점 없음</span><i class="fa-solid fa-shield-halved text-primary"></i><br/>
+					</div>
+					<!-- Tooltips -->
+					<!-- end of Tooltips -->
+					
 				</div>
 				<!-- end of Basic Info from api data -->
 			</div>
 			
 			<!-- Price, Supply, Onchain Info -->
-			<div id="info2" class="col-lg-4 border border-secondary">
+			<div id="info2" class="col-lg-4">
 				<!-- Price -->
-				<div>
+				<div class="mt-3">
 					<small><strong><span id="priceTitle" class="text-muted">priceTitle</span></strong></small><br/>
 					<span id="infoPrice" class="h2 fw-bold">infoPrice</span> <button type="button" id="usd24" class="btn btn-sm mx-2">24h %</button><br/>
 					<span id="infoPriceBTC" class="h5 fw-bold text-muted">infoPriceBTC</span><small><span id="btc24" class="fw-bold mx-2"></span></small><br/>
@@ -393,24 +457,183 @@
 				</div>
 				<!-- Vol, M.Cap, Supply -->
 				<div>
-					<small><span class="badge rounded-pill bg-dark mx-2">Real Volume</span><span id="vol24" class="fw-bold">real vol24</span><span class="badge bg-secondary mx-2">24h</span></small><br/>
-					<small><span class="badge rounded-pill bg-dark mx-2">&nbsp&nbsp Volume &nbsp&nbsp</span><span id="vol24simple" class="fw-bold">vol24</span><span class="badge bg-secondary mx-2">24h</span></small><br/>
-					<small><span class="badge rounded-pill bg-dark mx-2">Market Cap.</span><span id="mCap" class="fw-bold">mCap</span><span id="dom" class="badge bg-danger mx-2">dom.</span></small><br/>
-					<small><span class="badge rounded-pill bg-dark mx-2">Supply</span><span id="supply">supply</span></small><br/>
+					<table>
+						<tr>
+							<td><small><span class="badge rounded-pill bg-dark mx-2">Real Volume</span></small></td>
+							<td class="text-end"><small><span id="vol24" class="fw-bold">real vol24</span></small></td>
+							<td><small><span class="badge bg-secondary mx-2">24h</span></small></td>
+						</tr>
+						<tr>
+							<td><small><span class="badge rounded-pill bg-dark mx-2">Volume</span></small></td>
+							<td class="text-end"><small><span id="vol24simple" class="fw-bold">vol24</span></small></td>
+							<td><small><span class="badge bg-secondary mx-2">24h</span></small></td>
+						</tr>
+						<tr>
+							<td><small><span class="badge rounded-pill bg-dark mx-2">Market Cap.</span></small></td>
+							<td class="text-end"><small><span id="mCap" class="fw-bold">mCap</span></small></td>
+							<td><small><span id="dom" class="badge bg-danger mx-2">dom.</span></small></td>
+						</tr>
+							
+					</table>
+					<table>
+						<tr>
+							<td><small><span class="badge rounded-pill bg-dark mx-2">Supply</span></small></td>
+							<td><small><span class="badge rounded-pill bg-warning">인플레이션</span></small></td>
+							<td class="text-center"><small><span id="supplyInflation" class="fw-bold"> -</span></small></td>
+						</tr>
+						<tr>
+							<td><small><span class="badge rounded-pill bg-dark mx-2 invisible">Supply</span></small></td>
+							<td><small><span class="badge rounded-pill bg-warning">유통량</span></small></td>
+							<td><small><span id="supplyCircul" class="fw-bold">Circulation</span></small></td>
+						</tr>
+						<tr>
+							<td><small><span class="badge rounded-pill bg-dark mx-2 invisible">Supply</span></small></td>
+							<td><small><span class="badge rounded-pill bg-warning">+10년</span></small></td>
+							<td><small><span id="supplyPlus10" class="fw-bold"> -</span></small></td>
+						</tr>
+						<tr>
+							<td><small><span class="badge rounded-pill bg-dark mx-2 invisible">Supply</span></small></td>
+							<td><small><span class="badge rounded-pill bg-warning">2050년</span></small></td>
+							<td><small><span id="supplyY2050" class="fw-bold"> -</span></small></td>
+						</tr>
+					</table>
+					<hr/>
+				</div>
+				<!-- Onchain info -->
+				<div>
+					<span class="badge rounded-pill bg-danger">Onchain</span><br/>
+					<div class="mx-2">
+						<small><span class="badge rounded-pill bg-tomato">활성 주소</span><span id="addrActive" class="fw-bold"> -</span></small>
+						<small><span class="badge rounded-pill bg-tomato">전체 주소</span><span id="addrCnt" class="fw-bold"> -</span></small>
+						<br/>
+						<small><span class="badge rounded-pill bg-tomato">블록 높이</span><span id="blockHeight" class="fw-bold"> -</span></small>
+						<small><span class="badge rounded-pill bg-tomato">블록 주기</span><span id="blockInterval" class="fw-bold"> -</span><span class="text-muted"> sec</span></small>
+						<br/>
+						<small><span class="badge rounded-pill bg-tomato">평균 수수료</span><span id="feeUsd" class="fw-bold"> -</span><span class="text-muted"> USD</span></small>
+						<br/>
+						<small><span class="badge rounded-pill bg-tomato">Realized Market Cap.</span><span id="realizedMCap" class="fw-bold"> -</span><span class="text-muted"> USD</span></small>
+						<p/>
+					</div>
 				</div>
 			</div>
 			<!-- end fo Price, Supply, Onchain Info -->
 			
 			<!-- ROI Info -->
-			<div id="info3" class="col-lg-4 border border-secondary">
-				<p>세번째</p>
+			<div id="info3" class="col-lg-4">
+				<!-- ATH & Cycle-Low data -->
+				<div class="mt-3">
+					<small><strong><span class="text-muted">Price History</span></strong></small><br/>
+					<table>
+						<tr>
+							<td><span class="badge rounded-pill bg-success">All Time High</span></td>
+							<td>&nbsp</td>
+							<td><span class="badge rounded-pill bg-danger">Cycle Low</span></td>
+						</tr>
+						<tr>
+							<td><small><span class="badge rounded-pill bg-success">Date</span><span id="athAt" class="fw-bold text-success"> athAt</span></small></td>
+							<td>&nbsp</td>
+							<td><small><span class="badge rounded-pill bg-danger">Date</span><span id="lowAt" class="fw-bold text-danger"> lowAt</span></small></td>
+						</tr>
+						<tr>
+							<td><small><span class="badge rounded-pill bg-success">Price</span><span id="athPrice" class="fw-bold text-success"> athPrice</span><span class="text-muted"> USD</span></small></td>
+							<td>&nbsp</td>
+							<td><small><span class="badge rounded-pill bg-danger">Price</span><span id="lowPrice" class="fw-bold text-danger"> lowPrice</span><span class="text-muted"> USD</span></small></td>
+						</tr>
+						<tr>
+							<td><small><span class="badge rounded-pill bg-success">Down</span><span id="athDown" class="fw-bold text-success"> athDown</span><span class="text-muted"> %</span></small></td>
+							<td>&nbsp</td>
+							<td><small><span class="badge rounded-pill bg-danger">Up</span><span id="lowUp" class="fw-bold text-danger"> lowUp</span><span class="text-muted"> %</span></small></td>
+						</tr>
+					</table>
+					<hr/>
+				</div>
+				
+				<!-- ROI data -->
+				<div>
+					<table>
+						<tr>
+							<td colspan="2"><span class="badge rounded-pill bg-primary">ROI</span></td>
+							<td>&nbsp&nbsp</td>
+							<td colspan="2"><span class="badge rounded-pill bg-warning">ROI by year</span></td>
+						</tr>
+						<tr>
+							<td class="align-top">
+								<small><span class="badge rounded-pill bg-primary">1 week</span></small><br/>
+								<small><span class="badge rounded-pill bg-primary">1 month</span></small><br/>
+								<small><span class="badge rounded-pill bg-primary">3 months</span></small><br/>
+								<small><span class="badge rounded-pill bg-primary">1 year</span></small><br/>
+								<small><span class="badge rounded-pill bg-primary">YTD</span></small><br/>
+							</td>
+							<td class="align-top text-end">
+								<small><span id="roi1w" class="fw-bold text-primary"> roi1w</span><span class="text-muted"> %</span></small><br/>
+								<small><span id="roi1m" class="fw-bold text-primary"> roi1m</span><span class="text-muted"> %</span></small><br/>
+								<small><span id="roi3m" class="fw-bold text-primary"> roi3m</span><span class="text-muted"> %</span></small><br/>
+								<small><span id="roi1y" class="fw-bold text-primary"> roi1y</span><span class="text-muted"> %</span></small><br/>
+								<small><span id="roiYTD" class="fw-bold text-primary"> roiYTD</span><span class="text-muted"> %</span></small><br/>
+							</td>
+							<td>&nbsp</td>
+							<td class="align-top">
+								<small><span class="badge rounded-pill bg-warning">2011</span></small><br/>
+								<small><span class="badge rounded-pill bg-warning">2012</span></small><br/>
+								<small><span class="badge rounded-pill bg-warning">2013</span></small><br/>
+								<small><span class="badge rounded-pill bg-warning">2014</span></small><br/>
+								<small><span class="badge rounded-pill bg-warning">2015</span></small><br/>
+								<small><span class="badge rounded-pill bg-warning">2016</span></small><br/>
+								<small><span class="badge rounded-pill bg-warning">2017</span></small><br/>
+								<small><span class="badge rounded-pill bg-warning">2018</span></small><br/>
+								<small><span class="badge rounded-pill bg-warning">2019</span></small><br/>
+								<small><span class="badge rounded-pill bg-warning">2020</span></small><br/>
+								<small><span class="badge rounded-pill bg-warning">2021</span></small><br/>
+							</td>
+							<td class="align-top text-end">
+								<small><span id="roi2011" class="fw-bold"> -</span><span class="text-muted"> %</span></small><br/>
+								<small><span id="roi2012" class="fw-bold"> -</span><span class="text-muted"> %</span></small><br/>
+								<small><span id="roi2013" class="fw-bold"> -</span><span class="text-muted"> %</span></small><br/>
+								<small><span id="roi2014" class="fw-bold"> -</span><span class="text-muted"> %</span></small><br/>
+								<small><span id="roi2015" class="fw-bold"> -</span><span class="text-muted"> %</span></small><br/>
+								<small><span id="roi2016" class="fw-bold"> -</span><span class="text-muted"> %</span></small><br/>
+								<small><span id="roi2017" class="fw-bold"> -</span><span class="text-muted"> %</span></small><br/>
+								<small><span id="roi2018" class="fw-bold"> -</span><span class="text-muted"> %</span></small><br/>
+								<small><span id="roi2019" class="fw-bold"> -</span><span class="text-muted"> %</span></small><br/>
+								<small><span id="roi2020" class="fw-bold"> -</span><span class="text-muted"> %</span></small><br/>
+								<small><span id="roi2021" class="fw-bold"> -</span><span class="text-muted"> %</span></small><br/>
+								
+							</td>
+						</tr>
+					</table>
+					<!-- 
+					data.roi_data.percent_change_last_1_week
+					data.roi_data.percent_change_last_1_month
+					data.roi_data.percent_change_last_3_months
+					data.roi_data.percent_change_last_1_year
+					data.roi_data.percent_change_year_to_date
+					 -->
+				</div>
+				
+				<!-- ROI year -->
+				<div>
+					
+					<!-- 
+					result.data.roi_by_year["2011_usd_percent"]
+					result.data.roi_by_year["2012_usd_percent"]
+					result.data.roi_by_year["2013_usd_percent"]
+					result.data.roi_by_year["2014_usd_percent"]
+					result.data.roi_by_year["2015_usd_percent"]
+					result.data.roi_by_year["2016_usd_percent"]
+					result.data.roi_by_year["2017_usd_percent"]
+					result.data.roi_by_year["2018_usd_percent"]
+					result.data.roi_by_year["2019_usd_percent"]
+					result.data.roi_by_year["2020_usd_percent"]
+					result.data.roi_by_year["2021_usd_percent"]
+					 -->
+				</div>
 			</div>
 			<!-- end of ROI Info -->
 			
 				
 			<!-- TradingView Widget BEGIN -->
 			<div class="tradingview-widget-container">
-			  <div id="tradingview_f9f55" style="height: 300px;"></div>			<!-- 스타일 나중에 css에 작성-------------------todo -->
+			  <div id="tradingview_f9f55" style="height: 330px;"></div>			<!-- 스타일 나중에 css에 작성-------------------todo -->
 			  <div class="tradingview-widget-copyright">Chart by TradingView</div>
 			  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 			  <script type="text/javascript">

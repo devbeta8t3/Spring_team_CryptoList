@@ -193,19 +193,19 @@
 			let result = 0.0;
 			// 가격이 100 이상이면 소수점 2자리까지 표시
 			if (number >= 100){
-				result = parseFloat(numberStr).toFixed(2);
+				result = parseFloat(numberStr).toLocaleString('ko-KR', {maximumFractionDigits: 2}); // 1000단위 쉼표 & 소수점 자리수
 			}
 			// 100 > 가격 >= 10 이면 소수점 3자리까지 표시
 			if (number < 100 & number >= 10){
-				result = parseFloat(numberStr).toFixed(3);
+				result = parseFloat(numberStr).toLocaleString('ko-KR', {maximumFractionDigits: 3});
 			}
 			// 10 > 가격 >= 1 이면 소수점 4자리까지 표시
 			if (number < 10 & number >= 1){
-				result = parseFloat(numberStr).toFixed(4);
+				result = parseFloat(numberStr).toLocaleString('ko-KR', {maximumFractionDigits: 4});
 			}
 			// 가격이 1 미만이면 소수점 5자리까지 표시
 			if (number < 1){
-				result = parseFloat(numberStr).toFixed(5);
+				result = parseFloat(numberStr).toLocaleString('ko-KR', {maximumFractionDigits: 5});
 			}
 						
 			return result;
@@ -233,7 +233,7 @@
 				<thead>
 					<tr class="table-dark">
 						<td scope="col">#</td>
-						<td scope="col">★</td>
+						<td scope="col" class="text-warning">★</td>
 						<td scope="col" class="text-center">Asset</td>
 						<td scope="col" class="text-center">Price<br/><small>(USD)</small></td>
 						<td scope="col" class="text-center">Price<br/><small>(BTC)</small></td>

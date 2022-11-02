@@ -6,10 +6,11 @@ Spring framework for the team project at Busan IT training center
   - 선택된 암호화폐의 정보 표시.
   - 간단한 코멘트를 위한 게시판 첨부.
   - 회원관리.
+  - 즐겨찾기.
 
 Skills used
 1. Spring framework
 2. Java, JSP
 3. HTML, CSS, Javascript(jQuery, Ajax)
-4. Oracle DB
+4. Oracle DB 11g
 5. Messari API, Coinmarketcap API

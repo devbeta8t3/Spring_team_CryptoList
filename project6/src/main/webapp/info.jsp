@@ -244,14 +244,26 @@
 			}
 			
 			// ath
-			$("#athAt").empty().append(" " +result.data.all_time_high.at.substr(0, 10));
-			$("#athPrice").empty().append(" " +priceLength(result.data.all_time_high.price));
-			$("#athDown").empty().append(" " +result.data.all_time_high.percent_down.toFixed(2));
+			if (result.data.all_time_high.at != null){
+				$("#athAt").empty().append(" " +result.data.all_time_high.at.substr(0, 10));
+			}
+			if (result.data.all_time_high.price != null){
+				$("#athPrice").empty().append(" " +priceLength(result.data.all_time_high.price));
+			}
+			if (result.data.all_time_high.percent_down != null){
+				$("#athDown").empty().append(" " +result.data.all_time_high.percent_down.toFixed(2));
+			}
 			
 			// cycle low
-			$("#lowAt").empty().append(" " +result.data.cycle_low.at.substr(0, 10));
-			$("#lowPrice").empty().append(" " +priceLength(result.data.cycle_low.price));
-			$("#lowUp").empty().append(" " +result.data.cycle_low.percent_up.toFixed(2));
+			if (result.data.cycle_low.at != null){
+				$("#lowAt").empty().append(" " +result.data.cycle_low.at.substr(0, 10));
+			}
+			if (result.data.cycle_low.price != null){
+				$("#lowPrice").empty().append(" " +priceLength(result.data.cycle_low.price));
+			}
+			if (result.data.cycle_low.percent_up != null){
+				$("#lowUp").empty().append(" " +result.data.cycle_low.percent_up.toFixed(2));
+			}
 			
 			// roi
 			$("#roi1w").empty().append(result.data.roi_data.percent_change_eth_last_1_week.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
@@ -294,9 +306,7 @@
 			if (result.data.roi_by_year["2021_usd_percent"] != null) {
 				$("#roi2021").empty().append(result.data.roi_by_year["2021_usd_percent"].toLocaleString('ko-KR', {maximumFractionDigits: 0}));
 			}
-			
 		}
-		
 	});
 
 	$(function() {

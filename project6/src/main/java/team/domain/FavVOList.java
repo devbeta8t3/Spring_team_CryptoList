@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class FavVOList {
 
-	private List<FavVO> list;
+	private List<FavorVO> list;
 	
 	public FavVOList() {
 		list = new ArrayList<>();

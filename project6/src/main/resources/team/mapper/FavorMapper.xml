@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+								"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<!-- 즐겨찾기 추가 -->
+	<insert id="insert">
+		insert into tbl_favorite (u_id, symbol) 
+		values ( #{u_id}, #{symbol} )
+	</insert>
+
+	<!-- 즐겨찾기 삭제 -->
+	<delete id="delete">
+		delete tbl_favorite where u_id = #{u_id} and symbol = #{symbol}
+	</delete>
+	
+	<!-- 댓글 목록 -->
+	<select id="getFavorList" resultType="team.domain.FavorVO">
+		select u_id, symbol 
+		from tbl_favorite 
+		where u_id = #{u_id} 
+	</select>
+	

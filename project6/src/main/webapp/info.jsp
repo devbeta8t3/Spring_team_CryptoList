@@ -175,6 +175,9 @@
 				changeBTC24 = "▼ " +btc24Text+ "%";
 				$("#btc24").empty().addClass("text-danger").append(changeBTC24);
 			}
+			if (result.data.symbol == "BTC"){
+				$("#btc24").empty();
+			}
 			// 현재가 ETH
 			let infoPriceETH = result.data.market_data.price_eth.toFixed(8);
 			$("#infoPriceETH").empty().append(infoPriceETH+ " ETH");
@@ -194,27 +197,30 @@
 				changeETH24 = "▼ " +eth24Text+ "%";
 				$("#eth24").empty().addClass("text-danger").append(changeETH24);
 			}
+			if (result.data.symbol == "ETH"){
+				$("#eth24").empty();
+			}
 			
 			// real volume
-			$("#vol24").empty().append(result.data.market_data.real_volume_last_24_hours.toLocaleString('ko-KR', {maximumFractionDigits: 0})+ " USD");
+			$("#vol24").empty().append(result.data.market_data.real_volume_last_24_hours.toLocaleString('ko-KR', {maximumFractionDigits: 0}));
 			// volume
-			$("#vol24simple").empty().append(result.data.market_data.volume_last_24_hours.toLocaleString('ko-KR', {maximumFractionDigits: 0})+ " USD");
+			$("#vol24simple").empty().append(result.data.market_data.volume_last_24_hours.toLocaleString('ko-KR', {maximumFractionDigits: 0}));
 			// m.cap
-			$("#mCap").empty().append(result.data.marketcap.current_marketcap_usd.toLocaleString('ko-KR', {maximumFractionDigits: 0})+ " USD");
+			$("#mCap").empty().append(result.data.marketcap.current_marketcap_usd.toLocaleString('ko-KR', {maximumFractionDigits: 0}));
 			$("#dom").empty().append(result.data.marketcap.marketcap_dominance_percent.toLocaleString('ko-KR', {maximumFractionDigits: 1})+ " %");
 			
 			// supply
 			if (result.data.supply.annual_inflation_percent != null){
-				$("#supplyInflation").empty().append(result.data.supply.annual_inflation_percent.toFixed(4)+ "%");
+				$("#supplyInflation").empty().append(result.data.supply.annual_inflation_percent.toFixed(4));
 			}
 			if (result.data.supply.circulating != null){
-				$("#supplyCircul").empty().append(result.data.supply.circulating.toLocaleString('ko-KR', {maximumFractionDigits: 0})+ " " +result.data.symbol);
+				$("#supplyCircul").empty().append(result.data.supply.circulating.toLocaleString('ko-KR', {maximumFractionDigits: 0})+ " <span class='text-muted'>" +result.data.symbol+ "</span>");
 			}
 			if (result.data.supply.y_plus10 != null){
-				$("#supplyPlus10").empty().append(result.data.supply.y_plus10.toLocaleString('ko-KR', {maximumFractionDigits: 0})+ " " +result.data.symbol);
+				$("#supplyPlus10").empty().append(result.data.supply.y_plus10.toLocaleString('ko-KR', {maximumFractionDigits: 0})+ " <span class='text-muted'>" +result.data.symbol+ "</span>");
 			}
 			if (result.data.supply.y_2050 != null){
-				$("#supplyY2050").empty().append(result.data.supply.y_2050.toLocaleString('ko-KR', {maximumFractionDigits: 0})+ " " +result.data.symbol);
+				$("#supplyY2050").empty().append(result.data.supply.y_2050.toLocaleString('ko-KR', {maximumFractionDigits: 0})+ " <span class='text-muted'>" +result.data.symbol+ "</span>");
 			}
 			
 			// onchain
@@ -227,7 +233,9 @@
 			if (result.data.on_chain_data.block_height != null){
 				$("#blockHeight").empty().append(" " +result.data.on_chain_data.block_height.toLocaleString('ko-KR'));
 			}
-			$("#blockInterval").empty().append(" " +result.data.on_chain_data.average_block_interval.toFixed(2));
+			if (result.data.on_chain_data.average_block_interval != null){
+				$("#blockInterval").empty().append(" " +result.data.on_chain_data.average_block_interval.toFixed(2));
+			}
 			if (result.data.on_chain_data.average_fee_usd != null){
 				$("#feeUsd").empty().append(" " +result.data.on_chain_data.average_fee_usd.toLocaleString('ko-KR', {maximumFractionDigits: 4}));
 			}
@@ -363,9 +371,6 @@
 				//console.log(attackStr);// for test (완료)
 				$("#attack").empty().append(attackStr); 
 			}
-			
-			
-			
 		}
 	});
 	
@@ -460,17 +465,17 @@
 					<table>
 						<tr>
 							<td><small><span class="badge rounded-pill bg-dark mx-2">Real Volume</span></small></td>
-							<td class="text-end"><small><span id="vol24" class="fw-bold">real vol24</span></small></td>
+							<td class="text-end"><small><span id="vol24" class="fw-bold">real vol24</span><span class="text-muted fw-bold"> USD</span></small></td>
 							<td><small><span class="badge bg-secondary mx-2">24h</span></small></td>
 						</tr>
 						<tr>
 							<td><small><span class="badge rounded-pill bg-dark mx-2">Volume</span></small></td>
-							<td class="text-end"><small><span id="vol24simple" class="fw-bold">vol24</span></small></td>
+							<td class="text-end"><small><span id="vol24simple" class="fw-bold">vol24</span><span class="text-muted fw-bold"> USD</span></small></td>
 							<td><small><span class="badge bg-secondary mx-2">24h</span></small></td>
 						</tr>
 						<tr>
 							<td><small><span class="badge rounded-pill bg-dark mx-2">Market Cap.</span></small></td>
-							<td class="text-end"><small><span id="mCap" class="fw-bold">mCap</span></small></td>
+							<td class="text-end"><small><span id="mCap" class="fw-bold">mCap</span><span class="text-muted fw-bold"> USD</span></small></td>
 							<td><small><span id="dom" class="badge bg-danger mx-2">dom.</span></small></td>
 						</tr>
 							
@@ -479,7 +484,7 @@
 						<tr>
 							<td><small><span class="badge rounded-pill bg-dark mx-2">Supply</span></small></td>
 							<td><small><span class="badge rounded-pill bg-warning">인플레이션</span></small></td>
-							<td class="text-center"><small><span id="supplyInflation" class="fw-bold"> -</span></small></td>
+							<td class="text-center"><small><span id="supplyInflation" class="fw-bold"> -</span><span class="text-muted fw-bold"> %</span></small></td>
 						</tr>
 						<tr>
 							<td><small><span class="badge rounded-pill bg-dark mx-2 invisible">Supply</span></small></td>

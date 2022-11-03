@@ -14,7 +14,7 @@
 	</delete>
 	
 	<!-- 댓글 목록 -->
-	<select id="getFavorList" resultType="team.domain.FavorVO">
+	<select id="getFavList" resultType="team.domain.FavorVO">
 		select u_id, symbol 
 		from tbl_favorite 
 		where u_id = #{u_id} 

@@ -12,6 +12,11 @@
 	<!-- Font-Awesome Icons -->
 	<script src="https://kit.fontawesome.com/9ddb6abce0.js" crossorigin="anonymous"></script> 
 	
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap" rel="stylesheet"><!-- 우아한 형제들 폰트 -->
+	
 	<!-- Inner Style -->
 	<style type="text/css">
 		/* 페이징 처리를 위한 스타일 */
@@ -37,13 +42,21 @@
 		}
 		
 		/* 폰트 설정 */
+		
+		/* 정부상징체
 		@font-face{
-			src: url("./ROKG_R.TTF");
+			src: url("./ROKG_R.TTF"); 
 			font-family: "ROKG"; 
-		}
+		} */
 		body {
-			font-family: "ROKG", "맑은 고딕", verdana, san-serif;
+			font-family: 'Do Hyeon', sans-serif;
 		}
+		#topBar {
+			font-family: 'Jua', san-serif;
+		}
+		#listTable {
+			font-family: "맑은 고딕", san-serif;
+		} 
 		#copyRight {
 			font-family: "맑은 고딕", verdana, san-serif;
 			font-size: 6px;
@@ -245,19 +258,19 @@
 	<div class="row mt-3">
 		<!-- List -->
 		<div id="cryptoList" class="col-sm-12 col-md-8 col-lg-8 px-1">
-			<p class="h2"><strong>Crypto List</strong></p>
+			<p class="h2"><strong>Crypto Asset Top 100</strong></p>
 			
 			<table id="listTable" class="table table-sm table-hover table-striped">
 				<thead>
 					<tr class="table-dark">
 						<td scope="col">#</td>
 						<td scope="col" class="text-warning">★</td>
-						<td scope="col" class="text-center">Asset</td>
-						<td scope="col" class="text-center">Price<br/><small>(USD)</small></td>
-						<td scope="col" class="text-center">Price<br/><small>(BTC)</small></td>
-						<td scope="col" class="text-center">Change<br/><small>USD 24h</small></td>
-						<td scope="col" class="text-center">Real Volume<br/><small>24h (USD)</small></td>
-						<td scope="col" class="text-center">Market Cap.<br/><small>(USD)</small></td>
+						<td scope="col" class="text-center fw-bold">Asset</td>
+						<td scope="col" class="text-center fw-bold">Price<br/><small>(USD)</small></td>
+						<td scope="col" class="text-center fw-bold">Price<br/><small>(BTC)</small></td>
+						<td scope="col" class="text-center fw-bold">Change<br/><small>USD 24h</small></td>
+						<td scope="col" class="text-center fw-bold">Real Volume<br/><small>24h (USD)</small></td>
+						<td scope="col" class="text-center fw-bold">Market Cap.<br/><small>(USD)</small></td>
 					</tr>
 				</thead>
 				<tbody id="assetList">

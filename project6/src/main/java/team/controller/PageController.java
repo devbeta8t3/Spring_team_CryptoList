@@ -25,6 +25,9 @@ public class PageController {
 		return "/info.jsp?cSymbol=" +symbol;
 	}
 
+	@GetMapping("/memberLogin")
+	public void memberLogin() {
+	}
 	// FavorController로 처리하자...
 //	@GetMapping("/favor")
 //	public String favor(@RequestParam("u_id") String u_id) {

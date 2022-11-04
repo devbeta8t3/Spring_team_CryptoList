@@ -58,8 +58,7 @@ public class FavorController {
 				produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<List<FavorVO>> getFav(@PathVariable("u_id") String u_id) {	// 객체를 JSON 형태로 html 바디에 응답해준다.
 		
-		log.info("gettin Favorite List......................");
-		log.info("User ID: " +u_id);
+		log.info("getting Favorite List................. User ID: "+u_id);
 		
 		return new ResponseEntity<>(service.getList(u_id), HttpStatus.OK);	
 	}

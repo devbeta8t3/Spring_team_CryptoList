@@ -77,20 +77,23 @@
 	$(function() {
 		//$('#id').on("click", 'tag', function() {	// 해당 문법은 dynamically created elements에서 동작하지 않는다
 		//$(document).on('click', '#id tag', function(){	// 위의 문법이 안될 경우 이렇게 작성하자.
-				
-	
-		const key = "3732d88b-29b4-466e-9750-d3d42ed051b3"; // Messari api key
 			
+		const key = "3732d88b-29b4-466e-9750-d3d42ed051b3"; // Messari api key
+		
 		$.ajax({
 			url : "https://data.messari.io/api/v2/assets",	// 요청 주소
 			data : "assetKey=" +key+ "&limit=100",	//요청 파라미터
 			type : "GET", //전송타입
 			dataType : "json", //응답타입
+			//async : false,
 			success : function(result) {	//통신 성공시 호출하는 함수
 				//alert("요청에 의한 응답 성공 값 : " +result);
+				console.log("ajax 응답값 ↓↓↓");	// response된 json 확인 (완료)
 				console.log(result);	// response된 json 확인 (완료)
-				listParsing(result);	// 가독성 위해 따로 작성
-				getDB();
+				
+				let favList = getDB();//getDB();// async:false 이용해서 동기식 진행. 이유: 아래 파싱 함수에서 응답값 2개를 비교(즐겨찾기)해야함.
+				console.log("getDB 리턴값 ↓↓↓ & typeof favList → " +typeof favList);
+				listParsing(result, favList);	// 파싱 진행
 				
 			},
 			error : function(xhr, status, msg) {	// 통신 실패시 호출하는 함수
@@ -100,23 +103,44 @@
 			}
 			
 		});
+				
 		function getDB(){
+			/* sessionId 값 가져오기 */
+			let sId = '<%=(String) session.getAttribute("sessionId")%>';
+			console.log("<session test> typeof:" +typeof sId);// for test (done) - string
+			console.log("<session test> id value:" +sId);// for test (done) - aaa
+			let favList;
+			
 			$.ajax({
-				url : "/api/v2/assets",	// 콘트롤러 주소 - 이주소를 받는 함수를 컨트롤러에 짜야한다. 콘트롤러에서 responseEntity (project4. SampleController ex06)
-				data : "u_id=" +sessionId,	//요청 파라미터
+				url : "./getFav/" +sId,	// 콘트롤러 주소 
+				//data : "u_id=" +sessionId,	//요청 파라미터
 				type : "GET", //전송타입
 				dataType : "json", //응답타입
+				async : false,
 				success : function(result){
-					compare()	
+					console.log("getFav 응답값 ↓↓↓");	
+					console.log(result);	
+					
+					favList = result;
+					
+					//favList = result;
+					//console.log("favList 응답값 ↓↓↓");
+					//console.log(favList);
+					//console.log("type of favList :" + typeof favList);
+					
+					//return result;
 				}
 			
 			});
+			
+			return favList;
 		}
-		function listParsing(result) {
+		function listParsing(result, favList) {
 			let str = "";
 			let symbolText = "";
 			let idx = 0;
-			let favorStar = "☆"; // 즐겨찾기 별
+			let favorStar; // 즐겨찾기 별
+			console.log(favList)// getDB에서 값이 잘 넘어왔는지 확인
 						
 			for (index in result.data){
 				
@@ -153,8 +177,17 @@
 				iconURL = "<img src='https://raw.githubusercontent.com/ErikThiart/cryptocurrency-icons/master/16/" +result.data[index].slug+ ".png' height='16' width='16' />";
 				
 				// 즐겨찾기에 포함된 코인인지 확인
-				if (false){
-					favorStar = "<span class='text-warning'>★</span>" 
+				favorStar = "☆"; //즐겨찾기 별 초기화
+				//console.log("파싱함수 if 즐겨찾기 확인 시작");// for 타이밍 test (done) 
+				for (let j=0; j<favList.length; j++){
+				
+					console.log(favList.length);
+				
+					if (result.data[index].symbol == favList[j].symbol){
+						
+						console.log("symbol=" +result.data[index].symbol+ " / favList=" +favList[j].symbol);
+						favorStar = "<span class='text-warning'>★</span>" 
+					}
 				}
 					
 				str += "<tr>";

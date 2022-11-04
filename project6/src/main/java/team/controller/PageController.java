@@ -25,6 +25,13 @@ public class PageController {
 		return "/info.jsp?cSymbol=" +symbol;
 	}
 
+	@GetMapping("/favorites")
+	public String favor(@RequestParam("u_id") String u_id) {
+		
+		log.info("Favorites page with param : " +u_id);
+		return "/favorites.jsp?u_id=" +u_id;
+	}
+	
 	@GetMapping("/memberLogin")
 	public void memberLogin() {
 	}

@@ -21,9 +21,10 @@
 					</c:when>
 					<c:otherwise>
 						<!-- 로그인 메뉴 -->
-						<li class="nav-item"><a class="nav-link" href="./favor">즐겨찾기</a></li>
+						<li class="nav-item"><a class="nav-link" href="./favorites?u_id='<%=sessionId%>'">즐겨찾기</a></li>
 					</c:otherwise>	
 				</c:choose>
+				
 				<!-- 추가 메뉴 및 드롭다운 메뉴를 위한 예비코드 -->
 				<!-- 
 				<li class="nav-item">
@@ -41,6 +42,7 @@
 				</li>
 				-->
 				<!-- 추가 메뉴 예비코드 끝 -->
+				
 			</ul>
 			<form class="d-flex">
 				<c:choose>

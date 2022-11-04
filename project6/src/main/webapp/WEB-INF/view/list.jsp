@@ -67,6 +67,11 @@
 			text-decoration-line: none;
 		}
 		
+		/* 즐겨찾기 별모양 커서 만들기 */
+		.starCursor {
+			cursor : pointer;
+		}
+		
 	</style>
 	
 	<!-- Javascript -->
@@ -177,16 +182,16 @@
 				iconURL = "<img src='https://raw.githubusercontent.com/ErikThiart/cryptocurrency-icons/master/16/" +result.data[index].slug+ ".png' height='16' width='16' />";
 				
 				// 즐겨찾기에 포함된 코인인지 확인
-				favorStar = "☆"; //즐겨찾기 별 초기화
+				favorStar = "<span id='" +symbolText+ "' class='starCursor' value='noFav' onclick='clickStar()'>☆</span>"; //즐겨찾기 별 초기화
 				//console.log("파싱함수 if 즐겨찾기 확인 시작");// for 타이밍 test (done) 
 				for (let j=0; j<favList.length; j++){
 				
-					console.log(favList.length);
+					//console.log(favList.length); // 즐겨찾기 갯수
 				
 					if (result.data[index].symbol == favList[j].symbol){
 						
-						console.log("symbol=" +result.data[index].symbol+ " / favList=" +favList[j].symbol);
-						favorStar = "<span class='text-warning'>★</span>" 
+						//console.log("symbol=" +result.data[index].symbol+ " / favList=" +favList[j].symbol); // symbol 비교 (api vs db)
+						favorStar = "<span id='" +symbolText+ "' class='starCursor text-warning' value='yesFav' onclick='clickStar()'>★</span>" 
 					}
 				}
 					
@@ -276,6 +281,10 @@
 		}
 	});
 	
+	function clickStar(){
+		alert('click?');
+	}
+			
 	</script>
 
 

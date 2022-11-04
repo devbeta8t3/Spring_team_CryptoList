@@ -116,7 +116,7 @@
 			let str = "";
 			let symbolText = "";
 			let idx = 0;
-			let favStar = "☆"; // 즐겨찾기 별
+			let favorStar = "☆"; // 즐겨찾기 별
 						
 			for (index in result.data){
 				
@@ -154,14 +154,14 @@
 				
 				// 즐겨찾기에 포함된 코인인지 확인
 				if (false){
-					favStar = "<span class='text-warning'>★</span>" 
+					favorStar = "<span class='text-warning'>★</span>" 
 				}
 					
 				str += "<tr>";
 				//str += "<td>" +rankText+ "</td>";// rank 오류시 idx로 교체할 것.
 				str += "<td>" +idx+ "</td>";// rank 오류시 idx로 교체할 것.
-				str += "<td>" +favStar+ "</td>";// favorite 테이블과 비교해서 별표 색깔 변경 symbol에 있으면 노란별, symbol에 없으면 그냥별 -------------------------------- todo
-				str += "<th scope='row'>" +iconURL+ " " + "<a href='" + "./info.jsp?cSymbol=" +symbolText+ "'>" +nameText+ "</a>" + " <small class='text-muted'>" +symbolText+ "</small></th>";// 링크 삽입 상세정보 페이지(info.jsp?symbol=xxx)로 이동 ---- todo
+				str += "<td>" +favorStar+ "</td>";// favorite 테이블과 비교해서 별표 색깔 변경 symbol에 있으면 노란별, symbol에 없으면 그냥별 -------------------------------- todo
+				str += "<th scope='row'>" +iconURL+ " " + "<a href='" + "./info?cSymbol=" +symbolText+ "'>" +nameText+ "</a>" + " <small class='text-muted'>" +symbolText+ "</small></th>";// 링크 삽입 상세정보 페이지(info.jsp?symbol=xxx)로 이동 ---- todo
 				str += "<td class='text-end'><strong>" +priceText+ "</strong></td>";
 				str += "<td class='text-end'><small><strong>" +priceBtcText+ "</strong></small></td>";
 				str += "<td class='text-end'><small><strong>" +coloredChange+ "</strong></small></td>";
@@ -277,7 +277,7 @@
 					<!-- APT data area -->
 					<tr>
 						<th scope="row">Gazua</th>
-						<td colspan="7" class="text-center">Loading...<br/><img src="./Loading.gif" /></td>
+						<td colspan="7" class="text-center">Loading...<br/><img src="resources/images/Loading.gif" /></td>
 					</tr>
 					
 					<!-- end of APT data area -->

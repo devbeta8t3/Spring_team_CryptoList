@@ -12,8 +12,8 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarColor03">
 			<ul class="navbar-nav me-auto">
-				<li class="nav-item"><a class="nav-link" href="./home.jsp">Home<span class="visually-hidden">(current)</span></a></li>
-				<li class="nav-item"><a class="nav-link" href="./list.jsp">TOP100</a></li>
+				<li class="nav-item"><a class="nav-link" href="./">Home<span class="visually-hidden">(current)</span></a></li>
+				<li class="nav-item"><a class="nav-link" href="./list">TOP100</a></li>
 				<!-- 로그인/비로그인 메뉴 분기 -->
 				<c:choose>
 					<c:when test="${empty sessionId}">
@@ -21,7 +21,7 @@
 					</c:when>
 					<c:otherwise>
 						<!-- 로그인 메뉴 -->
-						<li class="nav-item"><a class="nav-link" href="./favor.jsp">즐겨찾기</a></li>
+						<li class="nav-item"><a class="nav-link" href="./favor">즐겨찾기</a></li>
 					</c:otherwise>	
 				</c:choose>
 				<!-- 추가 메뉴 및 드롭다운 메뉴를 위한 예비코드 -->
@@ -54,6 +54,7 @@
 						<button class="btn btn-outline-success my-2 my-sm-0 mx-2"
 							type="button">[김코인]님 접속중</button>
 						<button class="btn btn-warning my-2 my-sm-0" type="button">회원정보</button>
+						<button class="btn btn-danger my-2 my-sm-0" type="button">로그아웃</button>
 					</c:otherwise>
 				</c:choose>
 			</form>

@@ -12,9 +12,12 @@
 	<!-- Javascript -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	
+	<!-- Font-Awesome Icons -->
+	<script src="https://kit.fontawesome.com/9ddb6abce0.js" crossorigin="anonymous"></script> 
+	
 	<style>
 	#homeWelcome {
-		background-image: url('./bg_doge_1920.jpg');
+		background-image: url('resources/images/bg_doge_1920.jpg');
 		background-repeat: no-repeat;
 		background-attachment: fixed;
 		background-size: cover;
@@ -49,7 +52,7 @@
 			<p class="text-center"> Crypto List에 오신 것을 환영합니다.</p>
 			<p class="text-center"> 암호화폐 랭킹과 정보를 이용하세요.</p>
 			<p class="text-center"> 회원으로 등록하시면 즐겨찾기 메뉴를 이용할 수 있습니다.</p>
-			<p class="text-center"><button type="button" class="btn btn-primary btn-lg" onclick="href:location='./list.jsp'">시작하기</button></p>
+			<p class="text-center"><button type="button" class="btn btn-primary btn-lg" onclick="href:location='./list'">시작하기</button></p>
 		</div>
 		<!-- end of Welcome -->
 	</div>

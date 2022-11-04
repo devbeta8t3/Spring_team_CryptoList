@@ -31,7 +31,7 @@ public class FavorController {
 	// 즐겨찾기 추가
 	// 클라이언트(브라우저)는 JSON 타입으로 된 즐겨찾기 데이터를 전송하고,
 	// 서버는 즐겨찾기의 처리 결과가 정상적으로 되었는지 문자열로 결과를 알려주는 방식으로 처리
-	@PostMapping(value = "/new", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE})
+	@PostMapping(value = "/newFav", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> create(@RequestBody FavorVO vo) {
 		
 		log.info("FavorVO: " + vo);
@@ -44,7 +44,7 @@ public class FavorController {
 	}
 	
 	// 줄겨찾기 삭제
-	@DeleteMapping(value= "/del", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
+	@DeleteMapping(value= "/delFav", consumes = "application/json", produces = { MediaType.TEXT_PLAIN_VALUE })
 	public ResponseEntity<String> remove(@RequestBody FavorVO vo) {
 		
 		log.info("remove: " + vo);

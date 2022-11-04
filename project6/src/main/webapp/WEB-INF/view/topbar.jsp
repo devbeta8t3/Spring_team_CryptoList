@@ -46,15 +46,15 @@
 				<c:choose>
 					<c:when test="${empty sessionId}">
 						<!-- 비로그인 메뉴 -->
-						<button class="btn btn-primary my-2 my-sm-0 mx-2" type="button">로그인</button>
+						<button class="btn btn-primary my-2 my-sm-0 mx-2" type="button" onclick="href:location='./memberLogin'">로그인</button>
 						<button class="btn btn-danger my-2 my-sm-0" type="button">회원가입</button>
 					</c:when>
 					<c:otherwise>
 						<!-- 로그인 메뉴 -->
 						<button class="btn btn-outline-success my-2 my-sm-0 mx-2"
-							type="button">[김코인]님 접속중</button>
+							type="button">[<%= sessionId %>]님 접속중</button>
 						<button class="btn btn-warning my-2 my-sm-0" type="button">회원정보</button>
-						<button class="btn btn-danger my-2 my-sm-0" type="button">로그아웃</button>
+						<button class="btn btn-danger my-2 my-sm-0 mx-2" type="button">로그아웃</button>
 					</c:otherwise>
 				</c:choose>
 			</form>

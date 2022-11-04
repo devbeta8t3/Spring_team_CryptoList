@@ -15,6 +15,11 @@
 	<!-- Font-Awesome Icons -->
 	<script src="https://kit.fontawesome.com/9ddb6abce0.js" crossorigin="anonymous"></script> 
 	
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap" rel="stylesheet"><!-- 우아한 형제들 폰트 -->
+		
 	<style>
 	#homeWelcome {
 		background-image: url('resources/images/bg_doge_1920.jpg');
@@ -26,14 +31,21 @@
 	}
 	
 	@font-face{
-			src: url("./ROKG_R.TTF");
+			src: url("/resources/ROKG_R.TTF");
 			font-family: "ROKG"; 
 	}
 	body {
 		font-family: "ROKG", "맑은 고딕", verdana, san-serif;
 	}
+	#topBar {
+			font-family: 'Jua', san-serif;
+		}
 		
 	</style>
+	
+	<%
+		session.setAttribute("sessionId", "aaa");	// 테스트를 위한 세션정보 강제 입력
+	%>
 
 
 </head>

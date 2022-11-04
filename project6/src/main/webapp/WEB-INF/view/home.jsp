@@ -31,15 +31,15 @@
 	}
 	
 	@font-face{
-			src: url("/resources/ROKG_R.TTF");
-			font-family: "ROKG"; 
+		src: url("/resources/ROKG_R.TTF");
+		font-family: "ROKG"; 
 	}
 	body {
 		font-family: "ROKG", "맑은 고딕", verdana, san-serif;
 	}
 	#topBar {
-			font-family: 'Jua', san-serif;
-		}
+		font-family: 'Jua', san-serif;
+	}
 		
 	</style>
 	
@@ -64,13 +64,13 @@
 			<p class="text-center"> Crypto List에 오신 것을 환영합니다.</p>
 			<p class="text-center"> 암호화폐 랭킹과 정보를 이용하세요.</p>
 			<p class="text-center"> 회원으로 등록하시면 즐겨찾기 메뉴를 이용할 수 있습니다.</p>
-			<p class="text-center"><button type="button" class="btn btn-primary btn-lg" onclick="href:location='./list'">시작하기</button></p>
+			<p class="text-center">
+				<button type="button" class="btn btn-primary btn-lg" onclick="href:location='./list'">시작하기</button>
+			</p>
 		</div>
 		<!-- end of Welcome -->
 	</div>
 </div>
-
-	
 	
 </body>
 </html>

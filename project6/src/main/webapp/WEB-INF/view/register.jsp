@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
 <!-- Bootstrap 5.2.2 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
 	crossorigin="anonymous">
@@ -16,54 +17,91 @@
 <!-- Javascript -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+<!-- Font-Awesome Icons -->
+<script src="https://kit.fontawesome.com/9ddb6abce0.js" crossorigin="anonymous"></script> 
+	
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap" rel="stylesheet"><!-- 우아한 형제들 폰트 -->
+		
+
+
+
 <style>
-
-/* 아이디 중복 검사  */
-.id_input_re_1 {
-	color: green;
-	display: none;
-}
-
-.id_input_re_2 {
-	color: red;
-	display: none;
-}
-
-/* 비밀번호 확인 일치 유효성 검사 */
-.pwck_input_re_1 {
-	color: green;
-	display: none;
-}
-
-.pwck_input_re_2 {
-	color: red;
-	display: none;
-}
-
-/* 유효성 검사 문구 */
-.final_id_ck {
-	display: none;
-}
-
-.final_pw_ck {
-	display: none;
-}
-
-.final_pwck_ck {
-	display: none;
-}
-
-.final_name_ck {
-	display: none;
-}
-
-.final_mail_ck {
-	display: none;
-}
-
-.final_addr_ck {
-	display: none;
-}
+	body{
+		margin: 0;
+		padding: 0;
+		background: url(resources/images/bg_doge_1920.jpg) no-repeat;
+		height: 100vh;
+		/* font-family: sans-serif; */
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center;
+		overflow: hidden
+	}
+	
+	@media screen and (max-width: 600px;){body{background-size: cover;: fixed}}
+	
+	@font-face{
+	src: url("/resources/ROKG_R.TTF");
+	font-family: "ROKG"; 
+	}
+	body {
+		font-family: "ROKG", "맑은 고딕", verdana, san-serif;
+	}
+	.wrapper {
+		font-family: 'Jua', san-serif;
+	}
+	.formRadius{
+		border-radius: 20px;
+	}
+	/* 아이디 중복 검사  */
+	.id_input_re_1 {
+		color: green;
+		display: none;
+	}
+	
+	.id_input_re_2 {
+		color: red;
+		display: none;
+	}
+	
+	/* 비밀번호 확인 일치 유효성 검사 */
+	.pwck_input_re_1 {
+		color: green;
+		display: none;
+	}
+	
+	.pwck_input_re_2 {
+		color: red;
+		display: none;
+	}
+	
+	/* 유효성 검사 문구 */
+	.final_id_ck {
+		display: none;
+	}
+	
+	.final_pw_ck {
+		display: none;
+	}
+	
+	.final_pwck_ck {
+		display: none;
+	}
+	
+	.final_name_ck {
+		display: none;
+	}
+	
+	.final_mail_ck {
+		display: none;
+	}
+	
+	.final_addr_ck {
+		display: none;
+	}
 
 </style>
 </head>
@@ -73,54 +111,67 @@
 	<!-- end of Upper Nav bar -->
 
 	<div class="wrapper">
-		<form id="join_form" method="post">
-			<div class="wrap">
-				<div class="subjecet">
-					<span>회원가입</span>
-				</div>
-				<div class="id_wrap">
-					<div class="id_name">아이디</div>
-					<div class="id_input_box">
-						<input class="id_input" name="u_id">
-					</div>
-					<span class="id_input_re_1">사용 가능한 아이디입니다.</span> <span class="id_input_re_2">아이디가 이미 존재합니다.</span> <span class="final_id_ck">아이디를 입력해주세요.</span>
-				</div>
-				<div class="pw_wrap">
-					<div class="pw_name">비밀번호</div>
-					<div class="pw_input_box">
-						<input type="password" class="pw_input" name="u_pw">
-					</div>
-					<span class="final_pw_ck">비밀번호를 입력해주세요.</span>
-				</div>
-				<div class="pwck_wrap">
-					<div class="pwck_name">비밀번호 확인</div>
-					<div class="pwck_input_box">
-						<input type="password" class="pwck_input">
-					</div>
-					<span class="final_pwck_ck">비밀번호 확인을 입력해주세요.</span> <span class="pwck_input_re_1">비밀번호가 일치합니다.</span> <span class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
-				</div>
-				<div class="user_wrap">
-					<div class="user_name">이름</div>
-					<div class="user_input_box">
-						<input class="user_input" name="u_name">
-					</div>
-					<span class="final_name_ck">이름을 입력해주세요.</span>
-				</div>
-				<div class="mail_wrap">
-					<div class="mail_name">이메일</div>
-					<div class="mail_input_box">
-						<input type="email" class="mail_input" name="u_email">
-					</div>
-					<span class="final_mail_ck">이메일을 입력해주세요.</span>
-
-					<div class="clearfix"></div>
-				</div>
+	
+		<div class="jumbotron bg-success bg-opacity-25">
+			<div class="container ">
+				<h1 class="display-3 pt-3 text-light">회원 가입</h1>
 			</div>
-
-			<div class="join_button_wrap">
-				<input type="button" class="join_button" value="가입하기">
-			</div>
-		</form>
+		</div>
+		
+		<div class="container col-lg-5 bg-warning pt-4 pb-2 formRadius">
+			<!-- 회원 입력 양식 -->
+			<form id="join_form" method="post" class="form-horizontal">
+				<div class="wrap">
+					<div class="id_wrap form-group row mb-2">
+						<label class="col-sm-2 ">아이디</label>
+						<div class="id_input_box col-sm-4">
+							<input class="id_input form-control" name="u_id" placeholder="id">
+						</div>
+						<div class="col-sm-2"><span class="badge text-danger">*Required</span></div>
+						<span class="id_input_re_1">사용 가능한 아이디입니다.</span> <span class="id_input_re_2">아이디가 이미 존재합니다.</span> <span class="final_id_ck">아이디를 입력해주세요.</span>
+					</div> 
+					<div class="pw_wrap form-group row mb-2">
+						<label class="col-sm-2">비밀번호</label>
+						<div class="pw_input_box col-sm-4">
+							<input type="password" class="pw_input form-control" name="u_pw" placeholder="password">
+						</div>
+						<div class="col-sm-2"><span class="badge text-danger">*Required</span></div>
+						<span class="final_pw_ck">비밀번호를 입력해주세요.</span>
+					</div>
+					<div class="pwck_wrap form-group row mb-2">
+						<label class="col-sm-2">비밀번호 확인</label>
+						<div class="pwck_input_box col-sm-4">
+							<input type="password" class="pwck_input form-control" placeholder="confirm password">
+						</div>
+						<div class="col-sm-2"><span class="badge text-danger">*Required</span></div>
+						<span class="final_pwck_ck">비밀번호 확인을 입력해주세요.</span> <span class="pwck_input_re_1">비밀번호가 일치합니다.</span> <span class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
+					</div>
+					<div class="user_wrap form-group row mb-2">
+						<label class="col-sm-2">이름</label>
+						<div class="user_input_box col-sm-4">
+							<input class="user_input form-control" name="u_name">
+						</div>
+						<div class="col-sm-2"><span class="badge text-danger">*Required</span></div>
+						<span class="final_name_ck">이름을 입력해주세요.</span>
+					</div>
+					<div class="mail_wrap form-group row mb-2">
+						<label class="col-sm-2">이메일</label>
+						<div class="mail_input_box col-sm-4">
+							<input type="email" class="mail_input form-control" name="u_email">
+						</div>
+						<div class="col-sm-2"><span class="badge text-danger">*Required</span></div>
+						<span class="final_mail_ck">이메일을 입력해주세요.</span>
+	
+						<div class="clearfix"></div>
+					</div>
+				</div>
+	
+				<div class="join_button_wrap">
+					<input type="button" class="join_button btn btn-primary" value="가입하기">
+				</div>
+			</form>
+			<!-- 회원 입력 양식 END -->
+		</div>
 	</div>
 
 	<script>

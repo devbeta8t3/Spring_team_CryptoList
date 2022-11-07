@@ -21,13 +21,16 @@
 	<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap" rel="stylesheet"><!-- 우아한 형제들 폰트 -->
 		
 	<style>
-	#homeWelcome {
-		background-image: url('resources/images/bg_doge_1920.jpg');
-		background-repeat: no-repeat;
-		background-attachment: fixed;
+	body {
+		margin: 0;
+		padding: 0;
+		background: url(resources/images/bg_doge_1920.jpg) no-repeat;
+		height: 100vh;
+		/* font-family: sans-serif; */
 		background-size: cover;
-		color: white;
-		height: 880px;
+		background-repeat: no-repeat;
+		background-position: center;
+		overflow: hidden
 	}
 	
 	@font-face{
@@ -60,10 +63,10 @@
 	<div id="homeWelcome" class="row" >
 		<!-- Welcome -->
 		<div>
-			<p class="h2 mt-5 text-center">Welcome</p>
-			<p class="text-center"> Crypto List에 오신 것을 환영합니다.</p>
-			<p class="text-center"> 암호화폐 랭킹과 정보를 이용하세요.</p>
-			<p class="text-center"> 회원으로 등록하시면 즐겨찾기 메뉴를 이용할 수 있습니다.</p>
+			<p class="h2 mt-5 text-center text-light">Welcome</p>
+			<p class="text-center text-light"> Crypto List에 오신 것을 환영합니다.</p>
+			<p class="text-center text-light"> 암호화폐 랭킹과 정보를 이용하세요.</p>
+			<p class="text-center text-light"> 회원으로 등록하시면 즐겨찾기 메뉴를 이용할 수 있습니다.</p>
 			<p class="text-center">
 				<button type="button" class="btn btn-primary btn-lg" onclick="href:location='./list'">시작하기</button>
 			</p>

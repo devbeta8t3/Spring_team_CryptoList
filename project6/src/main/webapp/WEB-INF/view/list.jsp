@@ -67,7 +67,7 @@
 			text-decoration-line: none;
 		}
 		
-		/* 즐겨찾기 별모양 커서 만들기 */
+		/* 즐겨찾기 커서 만들기 */
 		.starCursor {
 			cursor : pointer;
 		}
@@ -85,6 +85,7 @@
 			
 		const key = "3732d88b-29b4-466e-9750-d3d42ed051b3"; // Messari api key
 		
+		// 메사리 api를 이용한 코인정보 요청 및 응답받기
 		$.ajax({
 			url : "https://data.messari.io/api/v2/assets",	// 요청 주소
 			data : "assetKey=" +key+ "&limit=100",	//요청 파라미터
@@ -108,7 +109,8 @@
 			}
 			
 		});
-				
+		
+		// 콘트롤러에 세션id에 대한 즐겨찾기 db 데이터 요청보냄	
 		function getDB(){
 			/* sessionId 값 가져오기 */
 			let sId = '<%=(String) session.getAttribute("sessionId")%>';
@@ -128,18 +130,15 @@
 					
 					favList = result;
 					
-					//favList = result;
 					//console.log("favList 응답값 ↓↓↓");
 					//console.log(favList);
 					//console.log("type of favList :" + typeof favList);
-					
-					//return result;
 				}
-			
 			});
-			
 			return favList;
 		}
+		
+		// 메사리 api의 응답을 파싱하여 화면에 표시 
 		function listParsing(result, favList) {
 			let str = "";
 			let symbolText = "";
@@ -181,8 +180,8 @@
 				// images source - https://github.com/ErikThiart/cryptocurrency-icons
 				iconURL = "<img src='https://raw.githubusercontent.com/ErikThiart/cryptocurrency-icons/master/16/" +result.data[index].slug+ ".png' height='16' width='16' />";
 				
-				// 즐겨찾기에 포함된 코인인지 확인
-				favorStar = "<span id='" +symbolText+ "' class='starCursor' value='noFav' onclick='clickStar()'>☆</span>"; //즐겨찾기 별 초기화
+				// 즐겨찾기에 포함된 코인인지 확인 (getDB 함수의 return값인 favList 사용하여 비교)
+				favorStar = "<span id='" +symbolText+ "' class='starCursor' onclick='clickStar()'>☆</span>"; //즐겨찾기 별 초기화
 				//console.log("파싱함수 if 즐겨찾기 확인 시작");// for 타이밍 test (done) 
 				for (let j=0; j<favList.length; j++){
 				
@@ -191,7 +190,7 @@
 					if (result.data[index].symbol == favList[j].symbol){
 						
 						//console.log("symbol=" +result.data[index].symbol+ " / favList=" +favList[j].symbol); // symbol 비교 (api vs db)
-						favorStar = "<span id='" +symbolText+ "' class='starCursor text-warning' value='yesFav' onclick='clickStar()'>★</span>" 
+						favorStar = "<span id='" +symbolText+ "' class='starCursor text-warning' onclick='clickStar()'>★</span>" 
 					}
 				}
 					
@@ -281,8 +280,79 @@
 		}
 	});
 	
+	// 즐겨찾기 별 클릭 - 추가/삭제 실행하고 색깔 바꾸기
 	function clickStar(){
-		alert('click?');
+		let clicked = event.target; // 클릭한 요소
+		//console.log(clicked);
+		//console.log(clicked.value);// 이건 안됨
+		//console.log(clicked.textContent);
+		
+		if (clicked.textContent == "★"){
+			//alert('즐겨찾기에 있습니다. ㅇㅇㅇㅇㅇㅇㅇ');// for test (done)
+			// 클릭한 요소의 id를 가져와서 db 즐겨찾기에서 삭제
+			let delCoin = $(clicked).attr('id');
+			delFav(delCoin);
+			// 아이콘 색깔 바꾸기
+			$(clicked).empty().removeClass('text-warning').append("☆");
+		}
+		else if (clicked.textContent == "☆"){
+			//alert('즐겨찾기에 없습니다. xxxxxxxxxx');// for test (done)
+			// 클릭한 요소의 id를 가져와서 db 즐겨찾기에 추가
+			let addCoin = $(clicked).attr('id');
+			addFav(addCoin);
+
+			// 아이콘 색깔 바꾸기
+			$(clicked).empty().addClass('text-warning').append("★");
+		}
+	}
+	// 즐겨찾기 삭제
+	function delFav(delCoin){
+		/* sessionId 값 가져오기 */
+		let sId = '<%=(String) session.getAttribute("sessionId")%>';
+		let favObj = {u_id : sId, symbol : delCoin}; // 요청 파라미터 설정
+		let delResult;
+		
+		$.ajax({
+			url : "./delFav/",	// 콘트롤러 주소 
+			data : JSON.stringify(favObj),	//요청 파라미터
+			type : "DELETE", //전송타입
+			contentType:'application/json;charset=utf-8',
+			//dataType : "json", //응답타입
+			async : false,
+			success : function(result){
+				console.log(result);
+				alert('즐겨찾기가 삭제되었습니다. ID:'+sId+' / Symbol:'+delCoin);
+			},
+			error : function(xhr, status, msg) {	// 통신 실패시 호출하는 함수
+				alert('Getting data from server has failed.');
+				console.log("error : ", msg);
+				console.log("status : ", status);
+			}
+		});
+	}
+	// 즐겨찾기 추가
+	function addFav(addCoin){
+		/* sessionId 값 가져오기 */
+		let sId = '<%=(String) session.getAttribute("sessionId")%>';
+		let favObj = {u_id : sId, symbol : addCoin}; // 요청 파라미터 설정
+		
+		$.ajax({
+			url : "./newFav/",	// 콘트롤러 주소 
+			data : JSON.stringify(favObj),	//요청 파라미터
+			type : "POST", //전송타입
+			contentType:'application/json;charset=utf-8',
+			//dataType : "json", //응답타입
+			async : false,
+			success : function(result){
+				console.log(result);
+				alert('즐겨찾기가 추가되었습니다. ID:'+sId+' / Symbol:'+addCoin);
+			},
+			error : function(xhr, status, msg) {	// 통신 실패시 호출하는 함수
+				alert('Getting data from server has failed.');
+				console.log("error : ", msg);
+				console.log("status : ", status);
+			}
+		});
 	}
 			
 	</script>

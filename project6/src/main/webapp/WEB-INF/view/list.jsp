@@ -113,7 +113,7 @@
 		// 콘트롤러에 세션id에 대한 즐겨찾기 db 데이터 요청보냄	
 		function getDB(){
 			/* sessionId 값 가져오기 */
-			let sId = '<%=(String) session.getAttribute("sessionId")%>';
+			let sId = '<%= (String) session.getAttribute("sessionId") %>';
 			console.log("<session test> typeof:" +typeof sId);// for test (done) - string
 			console.log("<session test> id value:" +sId);// for test (done) - aaa
 			let favList;

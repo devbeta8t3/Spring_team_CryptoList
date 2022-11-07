@@ -43,9 +43,9 @@
 		
 	</style>
 	
-	<%
+	<%--
 		session.setAttribute("sessionId", "aaa");	// 테스트를 위한 세션정보 강제 입력
-	%>
+	--%>
 
 
 </head>

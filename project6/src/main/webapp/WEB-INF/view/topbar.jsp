@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
+<%--
 	String sessionId = (String) session.getAttribute("sessionId");
-%>
+--%>
 
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
 	<div id="topBar" class="container-fluid">
@@ -16,12 +16,13 @@
 				<li class="nav-item"><a class="nav-link" href="./list">TOP100</a></li>
 				<!-- 로그인/비로그인 메뉴 분기 -->
 				<c:choose>
-					<c:when test="${empty sessionId}">
+					<%-- <c:when test="${empty sessionId}"> --%>
+					<c:when test="${user == null}">
 						<!-- 비로그인 메뉴 -->
 					</c:when>
 					<c:otherwise>
 						<!-- 로그인 메뉴 -->
-						<li class="nav-item"><a class="nav-link" href="./favorites?u_id='<%=sessionId%>'">즐겨찾기</a></li>
+						<li class="nav-item"><a class="nav-link" href="./favorites?u_id='${user.u_id}'">즐겨찾기</a></li>
 					</c:otherwise>	
 				</c:choose>
 				
@@ -46,17 +47,17 @@
 			</ul>
 			<form class="d-flex">
 				<c:choose>
-					<c:when test="${empty sessionId}">
+					<c:when test="${user == null}">
 						<!-- 비로그인 메뉴 -->
-						<button class="btn btn-primary my-2 my-sm-0 mx-2" type="button" onclick="href:location='./memberLogin'">로그인</button>
-						<button class="btn btn-danger my-2 my-sm-0" type="button">회원가입</button>
+						<button class="btn btn-primary my-2 my-sm-0 mx-2" type="button" onclick="href:location='./login'">로그인</button>
+						<button class="btn btn-danger my-2 my-sm-0" type="button" onclick="location.href='./register'">회원가입</button>
 					</c:when>
 					<c:otherwise>
 						<!-- 로그인 메뉴 -->
 						<button class="btn btn-outline-success my-2 my-sm-0 mx-2"
-							type="button">[<%= sessionId %>]님 접속중</button>
-						<button class="btn btn-warning my-2 my-sm-0" type="button">회원정보</button>
-						<button class="btn btn-danger my-2 my-sm-0 mx-2" type="button">로그아웃</button>
+							type="button">[${user.u_id}]님 접속중</button>
+						<button class="btn btn-warning my-2 my-sm-0" type="button" onclick="location.href='./userInfo'">회원정보</button>
+						<button class="btn btn-danger my-2 my-sm-0 mx-2" type="button" onclick="location.href='./logout'">로그아웃</button>
 					</c:otherwise>
 				</c:choose>
 			</form>

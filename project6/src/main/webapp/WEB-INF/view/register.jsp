@@ -44,10 +44,10 @@
 	@media screen and (max-width: 600px;){body{background-size: cover;: fixed}}
 	
 	@font-face{
-	src: url("/resources/ROKG_R.TTF");
+	src: url("resources/fonts/ROKG_R.TTF");
 	font-family: "ROKG"; 
 	}
-	body {
+	body, .badge {
 		font-family: "ROKG", "맑은 고딕", verdana, san-serif;
 	}
 	.wrapper {
@@ -118,56 +118,62 @@
 			</div>
 		</div>
 		
-		<div class="container col-lg-5 bg-warning pt-4 pb-2 formRadius">
+		<div class="container bg-warning pt-4 pb-3 formRadius">
 			<!-- 회원 입력 양식 -->
 			<form id="join_form" method="post" class="form-horizontal">
 				<div class="wrap">
-					<div class="id_wrap form-group row mb-2">
-						<label class="col-sm-2 ">아이디</label>
-						<div class="id_input_box col-sm-4">
-							<input class="id_input form-control" name="u_id" placeholder="id">
+					<div class="id_wrap form-group row justify-content-center mb-2">
+						<label class="col-lg-2 col-md-4 col-sm-2 text-lg-end text-md-end text-sm-end text-start">아이디</label>
+						<div class="id_input_box col-lg-4 col-md-6 col-sm-6">
+							<input class="id_input form-control" name="u_id" placeholder="ID">
 						</div>
-						<div class="col-sm-2"><span class="badge text-danger">*Required</span></div>
-						<span class="id_input_re_1">사용 가능한 아이디입니다.</span> <span class="id_input_re_2">아이디가 이미 존재합니다.</span> <span class="final_id_ck">아이디를 입력해주세요.</span>
+						<div class="col-lg-2 col-md-2 col-sm-2"><span class="badge rounded-pill bg-danger">*Required</span></div>
+						<span class="id_input_re_1 text-center">사용 가능한 아이디입니다.</span> <span class="id_input_re_2 text-center">아이디가 이미 존재합니다.</span> <span class="final_id_ck text-center">아이디를 입력해주세요.</span>
 					</div> 
-					<div class="pw_wrap form-group row mb-2">
-						<label class="col-sm-2">비밀번호</label>
-						<div class="pw_input_box col-sm-4">
-							<input type="password" class="pw_input form-control" name="u_pw" placeholder="password">
+					<div class="pw_wrap form-group row justify-content-center mb-2">
+						<label class="col-lg-2 col-md-4 col-sm-2 text-lg-end text-md-end text-sm-end text-start">비밀번호</label>
+						<div class="pw_input_box col-lg-4 col-md-6 col-sm-6">
+							<input type="password" class="pw_input form-control" name="u_pw" placeholder="Password">
 						</div>
-						<div class="col-sm-2"><span class="badge text-danger">*Required</span></div>
-						<span class="final_pw_ck">비밀번호를 입력해주세요.</span>
+						<div class="col-lg-2 col-md-2 col-sm-2"><span class="badge rounded-pill bg-danger">*Required</span></div>
+						<span class="final_pw_ck text-center">비밀번호를 입력해주세요.</span>
 					</div>
-					<div class="pwck_wrap form-group row mb-2">
-						<label class="col-sm-2">비밀번호 확인</label>
-						<div class="pwck_input_box col-sm-4">
-							<input type="password" class="pwck_input form-control" placeholder="confirm password">
+					<div class="pwck_wrap form-group row justify-content-center mb-2">
+						<label class="col-lg-2 col-md-4 col-sm-2 text-lg-end text-md-end text-sm-end text-start">비밀번호 확인</label>
+						<div class="pwck_input_box col-lg-4 col-md-6 col-sm-6">
+							<input type="password" class="pwck_input form-control" placeholder="Confirm password">
 						</div>
-						<div class="col-sm-2"><span class="badge text-danger">*Required</span></div>
-						<span class="final_pwck_ck">비밀번호 확인을 입력해주세요.</span> <span class="pwck_input_re_1">비밀번호가 일치합니다.</span> <span class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
+						<div class="col-lg-2 col-md-2 col-sm-2"><span class="badge rounded-pill bg-danger">*Required</span></div>
+						<span class="final_pwck_ck text-center">비밀번호 확인을 입력해주세요.</span> <span class="pwck_input_re_1 text-center">비밀번호가 일치합니다.</span> <span class="pwck_input_re_2 text-center">비밀번호가 일치하지 않습니다.</span>
 					</div>
-					<div class="user_wrap form-group row mb-2">
-						<label class="col-sm-2">이름</label>
-						<div class="user_input_box col-sm-4">
+					<div class="user_wrap form-group row justify-content-center mb-2">
+						<label class="col-lg-2 col-md-4 col-sm-2 text-lg-end text-md-end text-sm-end text-start">이름</label>
+						<div class="user_input_box col-lg-4 col-md-6 col-sm-6">
 							<input class="user_input form-control" name="u_name">
 						</div>
-						<div class="col-sm-2"><span class="badge text-danger">*Required</span></div>
-						<span class="final_name_ck">이름을 입력해주세요.</span>
+						<div class="col-lg-2 col-md-2 col-sm-2"><span class="badge rounded-pill bg-danger">*Required</span></div>
+						<span class="final_name_ck text-center">이름을 입력해주세요.</span>
 					</div>
-					<div class="mail_wrap form-group row mb-2">
-						<label class="col-sm-2">이메일</label>
-						<div class="mail_input_box col-sm-4">
+					<div class="mail_wrap form-group row justify-content-center mb-2">
+						<label class="col-lg-2 col-md-4 col-sm-2 text-lg-end text-md-end text-sm-end text-start">이메일</label>
+						<div class="mail_input_box col-lg-4 col-md-6 col-sm-6">
 							<input type="email" class="mail_input form-control" name="u_email">
 						</div>
-						<div class="col-sm-2"><span class="badge text-danger">*Required</span></div>
-						<span class="final_mail_ck">이메일을 입력해주세요.</span>
+						<div class="col-lg-2 col-md-2 col-sm-2"><span class="badge rounded-pill bg-danger">*Required</span></div>
+						<span class="final_mail_ck text-center">이메일을 입력해주세요.</span>
 	
 						<div class="clearfix"></div>
 					</div>
 				</div>
 	
 				<div class="join_button_wrap">
-					<input type="button" class="join_button btn btn-primary" value="가입하기">
+					<div class="mail_wrap form-group row justify-content-center mb-2">
+						<div class="col-lg-2 col-md-4 col-sm-2 text-lg-end text-md-end text-sm-end text-start"></div>
+						<div class="mail_input_box col-sm-4 d-grid">
+							<input type="button" class="join_button btn btn-primary" value="가입하기">
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-2"></div> 
+					</div>
 				</div>
 			</form>
 			<!-- 회원 입력 양식 END -->

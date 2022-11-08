@@ -143,7 +143,7 @@
 
 		<div class="loginBox bg-warning">
 			<!-- <img class="user" src="https://i.ibb.co/yVGxFPR/2.png" height="100px" width="100px"> -->
-			<img class="user" src="resources/images/pepe01.png" height="100px" width="100px">
+			<img class="user" src="resources/images/pepe1.png" height="100px" width="100px">
 			<h3>Log in here</h3>
 
 			<!-- 로그인 실패시 뜨는 메시지 -->

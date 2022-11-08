@@ -7,6 +7,20 @@ CREATE TABLE USERS(
    U_REGDATE date default sysdate
  );
 
+-- board 게시판 테이블
+CREATE TABLE crytoboard (
+   C_ID NUMBER primary key,
+   U_ID varchar2(20),
+   U_NAME varchar2(20) NOT NULL,
+   SYMBOL varchar2(20) NOT NULL,
+   C_DATE date default sysdate,
+   C_UPDATE date default sysdate,
+   CONTENT varchar2(500),
+   CONSTRAINT FK_crytoboard foreign key(U_ID) references users(U_ID)
+ );
+-- 시퀀스 설정
+create sequence crytoboard_seq start with 1 increment BY 1 maxvalue 1000000; 
+
 -- favorites 즐겨찾기 테이블
 create table cryptoFavorite (
 	u_id varchar2(20) not null,

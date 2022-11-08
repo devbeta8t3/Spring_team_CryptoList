@@ -22,8 +22,13 @@
 		body {
 			font-family: "ROKG", "맑은 고딕", verdana, san-serif;
 		}
-		#info, #info2, #info3 {
+		#info, #info2, #info3, #board_contents {
 			font-family: "맑은 고딕", verdana, san-serif;
+		}
+		
+		#board_area {
+			border-radius: 25px;
+			background: #CEF6F5;
 		}
 		
 		/* 내용 text 줄이기 */
@@ -136,6 +141,10 @@
 			let coinRank = "Rank #" +result.data.marketcap.rank;
 			$("#coinName").empty().append(coinName);
 			$("#coinRank").empty().append(coinRank);
+			
+			// Board title
+			$("#boardTitle").empty().append(" " +result.data.name);
+			$("#boardTitleSymbol").empty().append("$" +result.data.symbol);
 			
 			// 이름 ex) Etherium (ETH)
 			let priceTitle = result.data.name+ " Price (" +result.data.symbol+ ")";
@@ -649,12 +658,14 @@
 		
 		
 		<!-- Board -->
-		<div class="col-sm-12 col-md-6 col-lg-4 bg-warning px-1">
-			<div id="board_title">
-				<p class="h2">Board</p>
+		<div id="board_area" class="col-sm-12 col-md-6 col-lg-4 px-1">
+			<div id="boardTitleBox" class="h2 mt-3 mx-3 bg-light rounded-4 text-center">
+				<span id="boardTitle"> Board</span>
+				<span id="boardTitleSymbol" class="badge rounded-pill bg-secondary py-1"> SYMBOL</span>
+				<span class="fw-bold fst-italic"> Talk </span><i class="fa-regular fa-comment-dots"></i>
 			</div>
-			<div id="board_contents">
-				board_contents
+			<div id="board_contents" class="border border-2 border-light">
+				board_contents, 경계선 테스트
 			</div>
 		</div>
 		<!-- Board -->

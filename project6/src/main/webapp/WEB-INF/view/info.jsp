@@ -107,7 +107,7 @@
 		//$('#id').on("click", 'tag', function() {	// 해당 문법은 dynamically created elements에서 동작하지 않는다
 		//$(document).on('click', '#id tag', function(){	// 위의 문법이 안될 경우 이렇게 작성하자.
 				
-		const key = "fe09fd99-0a21-4f77-a3c3-08dd661ff0fa"; // Messari api key
+		const key = "d9dafa20-7fc8-4cba-8179-b19bf8a1bff6"; // Messari api key
 			
 		$.ajax({
 			url : "https://data.messari.io/api/v1/assets/" +reqSymbol+ "/metrics",	// 요청 주소
@@ -616,35 +616,9 @@
 							</td>
 						</tr>
 					</table>
-					<!-- 
-					data.roi_data.percent_change_last_1_week
-					data.roi_data.percent_change_last_1_month
-					data.roi_data.percent_change_last_3_months
-					data.roi_data.percent_change_last_1_year
-					data.roi_data.percent_change_year_to_date
-					 -->
-				</div>
-				
-				<!-- ROI year -->
-				<div>
-					
-					<!-- 
-					result.data.roi_by_year["2011_usd_percent"]
-					result.data.roi_by_year["2012_usd_percent"]
-					result.data.roi_by_year["2013_usd_percent"]
-					result.data.roi_by_year["2014_usd_percent"]
-					result.data.roi_by_year["2015_usd_percent"]
-					result.data.roi_by_year["2016_usd_percent"]
-					result.data.roi_by_year["2017_usd_percent"]
-					result.data.roi_by_year["2018_usd_percent"]
-					result.data.roi_by_year["2019_usd_percent"]
-					result.data.roi_by_year["2020_usd_percent"]
-					result.data.roi_by_year["2021_usd_percent"]
-					 -->
 				</div>
 			</div>
 			<!-- end of ROI Info -->
-			
 				
 			<!-- TradingView Widget BEGIN -->
 			<div class="tradingview-widget-container">
@@ -676,7 +650,12 @@
 		
 		<!-- Board -->
 		<div class="col-sm-12 col-md-6 col-lg-4 bg-warning px-1">
-			<p class="h2">Board</p>
+			<div id="board_title">
+				<p class="h2">Board</p>
+			</div>
+			<div id="board_contents">
+				board_contents
+			</div>
 		</div>
 		<!-- Board -->
 		

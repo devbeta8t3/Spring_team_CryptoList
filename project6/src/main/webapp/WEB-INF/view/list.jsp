@@ -83,7 +83,7 @@
 		//$('#id').on("click", 'tag', function() {	// 해당 문법은 dynamically created elements에서 동작하지 않는다
 		//$(document).on('click', '#id tag', function(){	// 위의 문법이 안될 경우 이렇게 작성하자.
 			
-		const key = "fe09fd99-0a21-4f77-a3c3-08dd661ff0fa"; // Messari api key
+		const key = "d9dafa20-7fc8-4cba-8179-b19bf8a1bff6"; // Messari api key
 		
 		// 메사리 api를 이용한 코인정보 요청 및 응답받기
 		$.ajax({

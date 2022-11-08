@@ -32,9 +32,11 @@ public class PageController {
 		return "/favorites.jsp?u_id=" +u_id;
 	}
 	
-	@GetMapping("/memberLogin")
-	public void memberLogin() {
-	}
+	// userController로 팀원이 처리
+//	@GetMapping("/memberLogin")
+//	public void memberLogin() {
+//	}
+	
 	// FavorController로 처리하자...
 //	@GetMapping("/favor")
 //	public String favor(@RequestParam("u_id") String u_id) {

@@ -1,15 +1,26 @@
-create table tbl_favorite (
-    u_id varchar2(20) not null,
-    symbol varchar2(10) not null
+-- users
+CREATE TABLE USERS(
+   U_ID varchar2(20) primary key,
+   U_NAME varchar2(20) NOT NULL,
+   U_EMAIL varchar2(40) NOT NULL,
+   U_PW varchar2(40) NOT NULL,
+   U_REGDATE date default sysdate
+ );
+
+-- favorites
+create table cryptoFavorite (
+	u_id varchar2(20) not null,
+	symbol varchar2(10) not null
 );
-drop table tbl_favorite;
+alter table cryptoFavorite ADD CONSTRAINT fk_fav foreign KEY(u_id) references users (u_id);
+drop table cryptoFavorite;
 
-insert into tbl_favorite values ('aaa', 'BTC');
-insert into tbl_favorite values ('aaa', 'ADA');
-insert into tbl_favorite values ('aaa', 'ETH');
-insert into tbl_favorite values ('aaa', 'XRP');
-insert into tbl_favorite values ('aaa', 'FTT');
-insert into tbl_favorite values ('aaa', 'TRX');
-insert into tbl_favorite values ('aaa', 'FLOW');
+insert into cryptoFavorite values ('aaa', 'BTC');
+insert into cryptoFavorite values ('aaa', 'ADA');
+insert into cryptoFavorite values ('aaa', 'ETH');
+insert into cryptoFavorite values ('aaa', 'XRP');
+insert into cryptoFavorite values ('aaa', 'FTT');
+insert into cryptoFavorite values ('aaa', 'TRX');
+insert into cryptoFavorite values ('aaa', 'FLOW');
 
-select u_id, symbol from tbl_favorite where u_id = 'aaa';
+select u_id, symbol from cryptoFavorite where u_id = 'aaa';

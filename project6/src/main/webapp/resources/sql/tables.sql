@@ -20,6 +20,15 @@ CREATE TABLE crytoboard (
  );
 -- 시퀀스 설정
 create sequence crytoboard_seq start with 1 increment BY 1 maxvalue 1000000; 
+-- 테스트 데이터 cryptoboard
+insert into cryptoBoard (c_id, u_id, u_name, symbol, c_date, c_update, content) 
+values ( cryptoboard_seq.nextval, 'aaa', '이세환', 'BTC', sysdate, sysdate, 'First content');
+insert into cryptoBoard (c_id, u_id, u_name, symbol, c_date, c_update, content) 
+values ( cryptoboard_seq.nextval, 'aaa', '이세환', 'BTC', sysdate, sysdate, 'Second content');
+insert into cryptoBoard (c_id, u_id, u_name, symbol, c_date, c_update, content) 
+values ( cryptoboard_seq.nextval, 'aaa', '이세환', 'BTC', sysdate, sysdate, 'Third content');
+insert into cryptoBoard (c_id, u_id, u_name, symbol, c_date, c_update, content) 
+values ( cryptoboard_seq.nextval, 'aaa', '이세환', 'BTC', sysdate, sysdate, 'Fourth content');
 
 -- favorites 즐겨찾기 테이블
 create table cryptoFavorite (

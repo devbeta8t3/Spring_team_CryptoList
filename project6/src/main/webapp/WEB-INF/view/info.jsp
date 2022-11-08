@@ -418,6 +418,56 @@
 		return result;
 	}
 	
+	// Board 구역 내용 가져오기
+	$(function() {
+		console.log("Board 처리하는 jQuery. 이 페이지에 요청된 심볼");
+		console.log(reqSymbol);
+		/* sessionId 값 가져오기 */
+		let sId = '<%=(String) session.getAttribute("sessionId")%>';
+		let BoardList;
+		//console.log(sId);
+		//console.log(BoardObj);
+		
+		$.ajax({
+			url : "./board/getBoard/" +reqSymbol,	// 콘트롤러 주소 
+			//data : JSON.stringify(BoardObj),	//요청 파라미터
+			type : "GET", //전송타입
+			//contentType:'application/json;charset=utf-8',
+			dataType : "json", //응답타입
+			//async : false,
+			success : function(result){
+				console.log(result);
+				//alert('게시물 리스트를 가져왔습니다. ID:'+sId+' / Symbol:'+reqSymbol);
+				boardShow(result);
+			},
+			error : function(xhr, status, msg) {	// 통신 실패시 호출하는 함수
+				alert('Getting data from server has failed.');
+				console.log("error : ", msg);
+				console.log("status : ", status);
+			}
+		});
+	})
+	
+	function boardShow(result){
+		
+		let boardStr = "<div class='text-primary'>";
+		
+		for (index in result){
+			boardStr += "c_id:" +result[index].c_id+ " / "
+			boardStr += "u_id:" +result[index].u_id+ " / "
+			boardStr += "u_name:" +result[index].u_name+ " / "
+			boardStr += "symbol:" +result[index].symbol+ " / "
+			boardStr += "c_date:" +result[index].c_date+ " / "
+			boardStr += "c_update:" +result[index].c_update+ " / "
+			boardStr += "content:" +result[index].content
+			boardStr += "<hr/></div>"
+		}
+		
+		$("#board_contents").empty().append(boardStr);
+	}
+		
+		
+	
 	</script>
 
 

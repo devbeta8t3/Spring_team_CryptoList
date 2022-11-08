@@ -1,20 +1,20 @@
 package team.mapper;
 
-import team.domain.UserVO;
+import team.domain.UserDTO;
 
 public interface UserMapper {
 	
 	//�α���
-	public UserVO userLogin(UserVO user);
+	public UserDTO userLogin(UserDTO user);
 	
 	//ȸ������
-	public void userRegister(UserVO user);
+	public void userRegister(UserDTO user);
 	
 	//ȸ������ ����
-	public void userUpdate(UserVO user);
+	public void userUpdate(UserDTO user);
 
 	//ȸ������
-	public void userDelete(UserVO user);
+	public void userDelete(UserDTO user);
 
 	//���̵� �ߺ� �˻� 
 	public int useridCheck(String u_id);

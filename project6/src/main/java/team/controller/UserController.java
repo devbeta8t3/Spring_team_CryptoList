@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import team.domain.UserVO;
+import team.domain.UserDTO;
 import team.service.UserService;
 
 import lombok.extern.log4j.Log4j;
@@ -36,7 +36,7 @@ public class UserController
 
 	// 회원가입 메서드
 	@RequestMapping(value = "register", method = RequestMethod.POST)
-	public String registerPOST(UserVO user) throws Exception
+	public String registerPOST(UserDTO user) throws Exception
 	{
 		// 회원가입 서비스 실행
 		userservice.userRegister(user);
@@ -76,7 +76,7 @@ public class UserController
 
 	// 회원 정보 수정
 	@RequestMapping(value = "userUpdate", method = RequestMethod.POST)
-	public String userUpdate(UserVO vo, HttpSession session) throws Exception
+	public String userUpdate(UserDTO vo, HttpSession session) throws Exception
 	{
 		userservice.userUpdate(vo);
 
@@ -86,7 +86,7 @@ public class UserController
 
 	// 회원 삭제
 	@RequestMapping(value = "userDelete", method = RequestMethod.POST)
-	public String userDelete(UserVO vo, HttpSession session) throws Exception
+	public String userDelete(UserDTO vo, HttpSession session) throws Exception
 	{
 		userservice.userDelete(vo);
 		session.invalidate();
@@ -102,13 +102,13 @@ public class UserController
 
 	// 로그인 메서드
 	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public String loginPOST(HttpServletRequest request, UserVO user, RedirectAttributes rttr) throws Exception
+	public String loginPOST(HttpServletRequest request, UserDTO user, RedirectAttributes rttr) throws Exception
 	{
 		// System.out.println("login 메서드 시작");
 		// System.out.println("전달데이터 : " + user);
 
 		HttpSession session = request.getSession();
-		UserVO lvo = userservice.userLogin(user);
+		UserDTO lvo = userservice.userLogin(user);
 
 		if (lvo == null)
 		{

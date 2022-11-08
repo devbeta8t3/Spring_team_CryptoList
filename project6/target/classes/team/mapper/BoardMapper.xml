@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+								"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.mapper.BoardMapper">
+
+	<!-- 게시물 추가 -->
+	<insert id="insert">
+		insert into cryptoBoard (c_id, u_id, u_name, symbol, c_date, c_update, content) 
+		values ( cryptoboard_seq.nextval, #{symbol}, #{u_name}, #{symbol}, sysdate, sysdate, #{content})
+	</insert>
+
+	<!-- 게시물 삭제 -->
+	<delete id="delete">
+		delete cryptoBoard where c_id = #{c_id} and symbol = #{symbol}
+	</delete>
+	
+	<!-- 게시물 목록 -->
+	<select id="getBoardList" resultType="team.domain.BoardDTO">
+		select c_id, u_id, u_name, symbol, c_date, c_update, content 
+		from cryptoBoard 
+		where symbol = #{symbol} 
+	</select>
+	
+</mapper>

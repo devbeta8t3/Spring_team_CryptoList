@@ -481,7 +481,7 @@
 				boardStr += "	<div id='iconDiv' class='col col-2 text-center'>";
 				boardStr += "		<img src='resources/images/pepe_rich.png' height='52' class='bg-warning rounded-5'>";
 			} else {
-				boardStr += "	<div class='col col-2'>";
+				boardStr += "	<div class='col col-2 text-center'>";
 				boardStr += "		<img src='resources/images/pepe_smile.png' height='50' class='bg-light rounded-5'>";
 			}
 			boardStr += "	</div>";
@@ -503,8 +503,8 @@
 			boardStr += "		</small>";
 			boardStr += "	</div>";
 			if (sId == result[index].u_id){// 내 게시글이면 삭제버튼 넣기
-				boardStr += "	<div class='col col-2'>";
-				boardStr += "		<button type='button' id='delBoardBtn' class='btn btn-sm btn-danger float-end' value='" +result[index].c_id+ "'>삭제</button>";
+				boardStr += "	<div class='col col-2 text-center'>";
+				boardStr += "		<button type='button' id='delBoardBtn' class='btn btn-sm btn-danger' value='" +result[index].c_id+ "'>삭제</button>";
 				boardStr += "	</div>";
 			}
 			boardStr += "</div>";
@@ -576,7 +576,7 @@
 		
 		$(document).on('click', '#delBoardBtn', function(){ // 동적으로 생성된 버튼은 이렇게 처리한다. $('#id') 불가
 			
-			let contentId = $("#delBoardBtn").attr("value");
+			let contentId = event.target.value;
 			console.log(contentId);// for test (done)
 			let boardObj = { c_id:contentId, symbol:reqSymbol };
 			
@@ -913,7 +913,7 @@
 			</div>
 			
 			<!-- 게시물 -->
-			<div id="board_contents" class="container " >
+			<div id="board_contents" class="container pe-3" >
 				<div class="row">
 					<div class="col col-2">
 						<!-- 내꺼면 이미지 다른거 쓰자: sessionId == result.u_id -->

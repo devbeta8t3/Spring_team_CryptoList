@@ -25,10 +25,22 @@
 		#info, #info2, #info3, #board_contents, #writeBox {
 			font-family: "맑은 고딕", verdana, san-serif;
 		}
-		
 		#board_area {
 			border-radius: 25px;
 			background: #CEF6F5;
+		}
+		#iconDiv {
+			background: linear-gradient(
+				to right, 
+				#CEF6F5 0%, 
+				#CEF6F5 50%, 
+				#ffc107 50%, 
+				#ffc107 100%
+			); 
+		}
+		
+		#tradingview_f9f55 {
+			height: 330px;
 		}
 		
 		
@@ -465,15 +477,16 @@
 		
 		for (index in result){
 			boardStr += "<div class='row my-1'>";
-			boardStr += "	<div class='col col-2'>";
 			if (sId == result[index].u_id){// 내 게시글이면 아이콘 다르게 표시
-				boardStr += "		<img src='resources/images/pepe_rich.png' height='50' class='bg-warning rounded-5'>";
+				boardStr += "	<div id='iconDiv' class='col col-2 text-center'>";
+				boardStr += "		<img src='resources/images/pepe_rich.png' height='52' class='bg-warning rounded-5'>";
 			} else {
+				boardStr += "	<div class='col col-2'>";
 				boardStr += "		<img src='resources/images/pepe_smile.png' height='50' class='bg-light rounded-5'>";
 			}
 			boardStr += "	</div>";
 			if (sId == result[index].u_id){// 내 게시글이면 테두리 넣기
-				boardStr += "	<div class='col col-8 bg-light border border-2 border-warning rounded-3'>";
+				boardStr += "	<div class='col col-8 bg-light border border-2 border-warning rounded-end'>";
 			} else {
 				boardStr += "	<div class='col col-10 bg-light rounded-3'>";
 			}
@@ -536,6 +549,7 @@
 						type : "GET", //전송타입
 						dataType : "json", //응답타입
 						success : function(result){
+							$('#inputCnt').empty();
 							boardShow(result);
 						},
 						error : function(xhr, status, msg) {	// 통신 실패시 호출하는 함수
@@ -603,6 +617,17 @@
 		});
 		
 	})
+	
+	$(document).ready(function() {
+		$('#contentText').on('keyup', function() {
+			$('#inputCnt').html("("+$(this).val().length+" / 200)");
+ 
+			if($(this).val().length > 200) {
+				$(this).val($(this).val().substring(0, 200));
+				$('#inputCnt').html("(200 / 200)");
+			}
+		});
+	});
 	
 	</script>
 
@@ -817,7 +842,7 @@
 				
 			<!-- TradingView Widget BEGIN -->
 			<div class="tradingview-widget-container">
-			  <div id="tradingview_f9f55" style="height: 330px;"></div>			<!-- 스타일 나중에 css에 작성-------------------todo -->
+			  <div id="tradingview_f9f55"></div>
 			  <div class="tradingview-widget-copyright">Chart by TradingView</div>
 			  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 			  <script type="text/javascript">
@@ -859,6 +884,7 @@
 						<label for="content" class="form-label mt-2 mb-1">
 							<span class="badge rounded-pill bg-primary ms-1">내 의견 쓰기</span> 
 							<i class="fa-solid fa-pen text-primary"></i>
+							<small><span id="inputCnt" class="text-primary"></span></small>
 						</label>
 						<div class="row">
 							<div class="col-10 pe-0">

@@ -41,7 +41,7 @@
 			height: 100%
 		} */
 		@font-face{
-		src: url("/resources/ROKG_R.TTF");
+		src: url("/resources/fonts/ROKG_R.TTF");
 		font-family: "ROKG"; 
 		}
 		body {

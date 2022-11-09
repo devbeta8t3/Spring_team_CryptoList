@@ -45,7 +45,7 @@
 		
 		/* 정부상징체
 		@font-face{
-			src: url("./ROKG_R.TTF"); 
+			src: url("resources/fonts/ROKG_R.TTF"); 
 			font-family: "ROKG"; 
 		} */
 		body {

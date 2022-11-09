@@ -36,7 +36,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardDTO> getList(String symbol) {// BoardMapper의 getBoardList 실행
 		
-		log.info("get Favorite List of User ID : " +symbol);
+		log.info("get Favorite List of Symbol : " +symbol);
 		return mapper.getBoardList(symbol);
 	}
 

@@ -7,7 +7,7 @@
 	<!-- 게시물 추가 -->
 	<insert id="insert">
 		insert into cryptoBoard (c_id, u_id, u_name, symbol, c_date, c_update, content) 
-		values ( cryptoboard_seq.nextval, #{symbol}, #{u_name}, #{symbol}, sysdate, sysdate, #{content})
+		values ( cryptoboard_seq.nextval, #{u_id}, #{u_name}, #{symbol}, sysdate, sysdate, #{content})
 	</insert>
 
 	<!-- 게시물 삭제 -->
@@ -20,6 +20,7 @@
 		select c_id, u_id, u_name, symbol, c_date, c_update, content 
 		from cryptoBoard 
 		where symbol = #{symbol} 
+		order by c_date desc 
 	</select>
 	
 </mapper>

@@ -16,13 +16,13 @@
 	<style type="text/css">
 		/* 폰트 설정 */
 		@font-face {
-			src: url("./ROKG_R.TTF");
+			src: url("resources/fonts/ROKG_R.TTF");
 			font-family: "ROKG";
 		}
 		body {
 			font-family: "ROKG", "맑은 고딕", verdana, san-serif;
 		}
-		#info, #info2, #info3, #board_contents {
+		#info, #info2, #info3, #board_contents, #writeBox {
 			font-family: "맑은 고딕", verdana, san-serif;
 		}
 		
@@ -30,6 +30,7 @@
 			border-radius: 25px;
 			background: #CEF6F5;
 		}
+		
 		
 		/* 내용 text 줄이기 */
 		.reduce {
@@ -80,6 +81,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type="text/javascript">
 	
+	let sId = '<%=(String) session.getAttribute("sessionId")%>';
+	let sName = '<%=(String) session.getAttribute("sessionName")%>';
+
 	/* Request Parameter의 값 */
 	function Request(){
 		let requestParam ="";
@@ -275,11 +279,21 @@
 			}
 			
 			// roi
-			$("#roi1w").empty().append(result.data.roi_data.percent_change_eth_last_1_week.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
-			$("#roi1m").empty().append(result.data.roi_data.percent_change_last_1_month.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
-			$("#roi3m").empty().append(result.data.roi_data.percent_change_last_3_months.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
-			$("#roi1y").empty().append(result.data.roi_data.percent_change_last_1_year.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
-			$("#roiYTD").empty().append(result.data.roi_data.percent_change_year_to_date.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
+			if (result.data.roi_data.percent_change_eth_last_1_week != null) {
+				$("#roi1w").empty().append(result.data.roi_data.percent_change_eth_last_1_week.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
+			}
+			if (result.data.roi_data.percent_change_last_1_month != null) {
+				$("#roi1m").empty().append(result.data.roi_data.percent_change_last_1_month.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
+			}
+			if (result.data.roi_data.percent_change_last_3_months != null) {
+				$("#roi3m").empty().append(result.data.roi_data.percent_change_last_3_months.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
+			}
+			if (result.data.roi_data.percent_change_last_1_year != null) {
+				$("#roi1y").empty().append(result.data.roi_data.percent_change_last_1_year.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
+			}
+			if (result.data.roi_data.percent_change_year_to_date != null) {
+				$("#roiYTD").empty().append(result.data.roi_data.percent_change_year_to_date.toLocaleString('ko-KR', {maximumFractionDigits: 2}));
+			}
 			
 			// roi year
 			if (result.data.roi_by_year["2011_usd_percent"] != null) {
@@ -422,11 +436,6 @@
 	$(function() {
 		console.log("Board 처리하는 jQuery. 이 페이지에 요청된 심볼");
 		console.log(reqSymbol);
-		/* sessionId 값 가져오기 */
-		let sId = '<%=(String) session.getAttribute("sessionId")%>';
-		let BoardList;
-		//console.log(sId);
-		//console.log(BoardObj);
 		
 		$.ajax({
 			url : "./board/getBoard/" +reqSymbol,	// 콘트롤러 주소 
@@ -447,26 +456,153 @@
 			}
 		});
 	})
-	
+	// 게시물 출력
 	function boardShow(result){
 		
-		let boardStr = "<div class='text-primary'>";
+		let timeStamp;
+		let dayTime;
+		let boardStr = "";
 		
 		for (index in result){
-			boardStr += "c_id:" +result[index].c_id+ " / "
-			boardStr += "u_id:" +result[index].u_id+ " / "
-			boardStr += "u_name:" +result[index].u_name+ " / "
-			boardStr += "symbol:" +result[index].symbol+ " / "
-			boardStr += "c_date:" +result[index].c_date+ " / "
-			boardStr += "c_update:" +result[index].c_update+ " / "
-			boardStr += "content:" +result[index].content
-			boardStr += "<hr/></div>"
+			boardStr += "<div class='row my-1'>";
+			boardStr += "	<div class='col col-2'>";
+			if (sId == result[index].u_id){// 내 게시글이면 아이콘 다르게 표시
+				boardStr += "		<img src='resources/images/pepe_rich.png' height='50' class='bg-warning rounded-5'>";
+			} else {
+				boardStr += "		<img src='resources/images/pepe_smile.png' height='50' class='bg-light rounded-5'>";
+			}
+			boardStr += "	</div>";
+			if (sId == result[index].u_id){// 내 게시글이면 테두리 넣기
+				boardStr += "	<div class='col col-8 bg-light border border-2 border-warning rounded-3'>";
+			} else {
+				boardStr += "	<div class='col col-10 bg-light rounded-3'>";
+			}
+			boardStr += "		<small>";
+			if (sId == result[index].u_id){// 내 게시글이면 이름 뒤에 (me) 넣기
+				boardStr += "		<span class='fw-bold'>" +result[index].u_name+ " <sup class='text-primary'>(me)</sup></span>";
+			} else {
+				boardStr += "		<span class='fw-bold'>" +result[index].u_name+ "</span>";
+			}
+			timeStamp = Number(result[index].c_date);
+			dayTime = new Date(timeStamp);
+			boardStr += "		<span class='float-end me-1'>" +dayTime.toLocaleString()+ "</span><br/>";
+			boardStr += "		<span class=''>" +result[index].content+ "</span>";
+			boardStr += "		</small>";
+			boardStr += "	</div>";
+			if (sId == result[index].u_id){// 내 게시글이면 삭제버튼 넣기
+				boardStr += "	<div class='col col-2'>";
+				boardStr += "		<button type='button' id='delBoardBtn' class='btn btn-sm btn-danger float-end' value='" +result[index].c_id+ "'>삭제</button>";
+				boardStr += "	</div>";
+			}
+			boardStr += "</div>";
+			
+			// for test (done)
+//			boardStr += "c_id:" +result[index].c_id+ " / "
+//			boardStr += "u_id:" +result[index].u_id+ " / "
+//			boardStr += "u_name:" +result[index].u_name+ " / "
+//			boardStr += "symbol:" +result[index].symbol+ " / "
+//			boardStr += "c_date:" +result[index].c_date+ " / "
+//			boardStr += "c_update:" +result[index].c_update+ " / "
+//			boardStr += "content:" +result[index].content
+//			boardStr += "<hr/>"
 		}
-		
 		$("#board_contents").empty().append(boardStr);
 	}
+	
+	// 새 게시물 등록
+	$(function() {
 		
+		$("#newBoardBtn").click(function(){
+			
+			let contentText = $("#contentText").val();
+			console.log(contentText);// for test (done)
+			let boardObj = { u_id:sId, u_name:sName, symbol:reqSymbol, content:contentText };
+			 
+			$.ajax({
+				url : "./board/newBoard/",	// 콘트롤러 주소 
+				data : JSON.stringify(boardObj),	//요청 파라미터
+				type : "POST", //전송타입
+				contentType:'application/json;charset=utf-8',
+				//dataType : "json", //응답타입
+				//async : false,
+				success : function(result){
+					console.log(result);
+					alert('새 게시물을 등록했습니다. ID:'+sId+' / Name:'+sName+'/ Symbol:'+reqSymbol);
+					$("#contentText").val('');// 입력폼 지우기
+					
+					// 게시글 등록 후 리스트 다시 받아오기
+					$.ajax({
+						url : "./board/getBoard/" +reqSymbol,	// 콘트롤러 주소 
+						type : "GET", //전송타입
+						dataType : "json", //응답타입
+						success : function(result){
+							boardShow(result);
+						},
+						error : function(xhr, status, msg) {	// 통신 실패시 호출하는 함수
+							alert('게시물 등록 후 게시물 리스트 받아오기 실패.');
+							console.log("error : ", msg);
+							console.log("status : ", status);
+						}
+					});
+					
+				},
+				error : function(xhr, status, msg) {	// 통신 실패시 호출하는 함수
+					alert('Getting data from server has failed.');
+					console.log("error : ", msg);
+					console.log("status : ", status);
+				}
+			});
+			
+		});
 		
+	})
+	
+	// 게시물 삭제
+	$(function() {
+		
+		$(document).on('click', '#delBoardBtn', function(){ // 동적으로 생성된 버튼은 이렇게 처리한다. $('#id') 불가
+			
+			let contentId = $("#delBoardBtn").attr("value");
+			console.log(contentId);// for test (done)
+			let boardObj = { c_id:contentId, symbol:reqSymbol };
+			
+			$.ajax({
+				url : "./board/delBoard/",	// 콘트롤러 주소 
+				data : JSON.stringify(boardObj),	//요청 파라미터
+				type : "DELETE", //전송타입
+				contentType:'application/json;charset=utf-8',
+				//dataType : "json", //응답타입
+				//async : false,
+				success : function(result){
+					console.log(result);
+					alert('게시물을 삭제했습니다. ID:'+sId+' / Content ID:'+contentId+'/ Symbol:'+reqSymbol);
+					
+					// 게시글 등록 후 리스트 다시 받아오기
+					$.ajax({
+						url : "./board/getBoard/" +reqSymbol,	// 콘트롤러 주소 
+						type : "GET", //전송타입
+						dataType : "json", //응답타입
+						success : function(result){
+							boardShow(result);
+						},
+						error : function(xhr, status, msg) {	// 통신 실패시 호출하는 함수
+							alert('게시물 등록 후 게시물 리스트 받아오기 실패.');
+							console.log("error : ", msg);
+							console.log("status : ", status);
+						}
+					});
+					
+				},
+				error : function(xhr, status, msg) {	// 통신 실패시 호출하는 함수
+					alert('DELETE - Getting data from server has failed.');
+					console.log("error : ", msg);
+					console.log("status : ", status);
+				}
+			});
+			
+		});
+		
+	})
 	
 	</script>
 
@@ -709,16 +845,97 @@
 		
 		<!-- Board -->
 		<div id="board_area" class="col-sm-12 col-md-6 col-lg-4 px-1">
+			<!-- 게시물 타이틀 -->
 			<div id="boardTitleBox" class="h2 mt-3 mx-3 bg-light rounded-4 text-center">
 				<span id="boardTitle"> Board</span>
 				<span id="boardTitleSymbol" class="badge rounded-pill bg-secondary py-1"> SYMBOL</span>
 				<span class="fw-bold fst-italic"> Talk </span><i class="fa-regular fa-comment-dots"></i>
 			</div>
-			<div id="board_contents" class="border border-2 border-light">
-				board_contents, 경계선 테스트
+			
+			<!-- 게시물 입력창 -->
+			<div id="writeBox">
+				<form id="writeForm" method="post">
+					<div class="form-group">
+						<label for="content" class="form-label mt-2 mb-1">
+							<span class="badge rounded-pill bg-primary ms-1">내 의견 쓰기</span> 
+							<i class="fa-solid fa-pen text-primary"></i>
+						</label>
+						<div class="row">
+							<div class="col-10 pe-0">
+			<!-- 로그인/비로그인 메뉴 분기 -->
+			<c:choose>
+				<c:when test="${user == null}"><!-- 비 로그인 -->
+								<textarea class="form-control pe-0" id="contentText" name="content" rows="2" placeholder="로그인 후 작성할 수 있습니다." disabled></textarea>
+							</div>
+							<div class="col-2 d-grid ps-1">
+								<input id="newBoardBtn" type="button" class="btn btn-lg btn-primary disabled" value="등록" />
+							</div>
+				</c:when>
+				<c:otherwise><!-- 로그인 -->
+								<textarea class="form-control pe-0" id="contentText" name="content" rows="2" placeholder="한글 200자 이내로 입력하세요."></textarea>
+							</div>
+							<div class="col-2 d-grid ps-1">
+								<input id="newBoardBtn" type="button" class="btn btn-lg btn-primary" value="등록" />
+							</div>
+				</c:otherwise>
+			</c:choose>
+							
+						</div>
+					</div>
+				</form>
+				<hr/>
 			</div>
+			
+			<!-- 게시물 -->
+			<div id="board_contents" class="container " >
+				<div class="row">
+					<div class="col col-2">
+						<!-- 내꺼면 이미지 다른거 쓰자: sessionId == result.u_id -->
+						<img src="resources/images/pepe_rich.png" height="50" class="bg-light rounded-5">
+					</div>
+					<div class="col col-8 bg-light border border-2 border-warning rounded-3">
+						<small>
+						<span class="fw-bold">자오장펑 TEST</span>
+						<span class="float-end me-1">2022-11-09</span>
+						<br/>
+						<span class="">정보가 없을때 표시되는 메시지 입니다. I just flex FTX.com Gazua~~</span>
+						</small>
+					</div>
+					<div class="col col-2">
+						<!-- 내꺼면 삭제버튼 나오게 하자: sessionId == result.u_id -->
+						<button type="button" class="btn btn-sm btn-danger float-end" value="c_id">삭제</button>
+					</div>
+				</div>
+			</div>
+			<!-- end of 게시물 -->
+			
+			<!-- 게시물 테스트 -->
+			<!-- 
+			<div class="container">
+				<div class="row">
+					<div class="col col-2">
+						내꺼면 이미지 다른거 쓰자: sessionId == result.u_id
+						<img src="resources/images/pepe_rich.png" height="50" class="bg-light rounded-5">
+					</div>
+					<div class="col col-8 bg-light border border-2 border-warning rounded-3">
+						<small>
+						<span class="fw-bold">자오장펑 TEST</span>
+						<span class="float-end me-1">2022-11-09</span>
+						<br/>
+						<span class="">I just flex FTX.com Gazua~~</span>
+						</small>
+					</div>
+					<div class="col col-2">
+						내꺼면 삭제버튼 나오게 하자: sessionId == result.u_id
+						<button type="button" class="btn btn-sm btn-danger float-end" value="c_id">삭제</button>
+					</div>
+				</div>
+			</div>
+			 -->
+			<!-- end of 게시물 테스트 -->
+			
 		</div>
-		<!-- Board -->
+		<!-- end of Board -->
 		
 	</div>
 </div>

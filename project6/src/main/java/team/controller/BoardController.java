@@ -36,7 +36,7 @@ public class BoardController {
 		int insertCount = service.register(dto);
 		log.info("Board INSERT COUNT: " + insertCount);
 		
-		return insertCount == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+		return insertCount == 1 ? new ResponseEntity<>("newBoard success", HttpStatus.OK)
 								: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	

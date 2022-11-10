@@ -25,6 +25,13 @@ public class BoardServiceImpl implements BoardService {
 		log.info("register......" +dto);
 		return mapper.insert(dto);
 	}
+	
+	@Override
+	public int modify(BoardDTO dto) {
+
+		log.info("modify......" +dto);
+		return mapper.update(dto);
+	}
 
 	@Override
 	public int remove(BoardDTO dto) {// BoardMapper의 delete 실행

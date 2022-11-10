@@ -10,6 +10,8 @@ public interface BoardMapper {
 	
 	public int insert(BoardDTO dto);
 	
+	public int update(BoardDTO dto);
+
 	public int delete(BoardDTO dto);
 	
 	public List<BoardDTO> getBoardList(@Param("symbol") String symbol);

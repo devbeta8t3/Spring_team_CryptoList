@@ -8,6 +8,8 @@ import team.domain.BoardDTO;
 public interface BoardService {
 	
 	public int register(BoardDTO dto);
+		
+	public int modify(BoardDTO dto);
 	
 	public int remove(BoardDTO dto);
 	

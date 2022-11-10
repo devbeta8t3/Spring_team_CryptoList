@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import team.domain.BoardDTO;
 //import team.domain.Criteria;
 import team.service.BoardService;
@@ -38,6 +40,19 @@ public class BoardController {
 		
 		return insertCount == 1 ? new ResponseEntity<>("newBoard success", HttpStatus.OK)
 								: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	// 게시물 수정
+	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
+					value = "/modBoard",
+					consumes = "application/json",
+					produces = { MediaType.TEXT_PLAIN_VALUE })
+	public ResponseEntity<String> modify(@RequestBody BoardDTO dto) {
+		
+		log.info("modify: " +dto);
+		
+		return service.modify(dto) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
+										: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	// 게시물 삭제

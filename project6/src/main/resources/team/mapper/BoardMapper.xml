@@ -9,6 +9,12 @@
 		insert into cryptoBoard (c_id, u_id, u_name, symbol, c_date, c_update, content) 
 		values ( cryptoboard_seq.nextval, #{u_id}, #{u_name}, #{symbol}, sysdate, sysdate, #{content})
 	</insert>
+	
+	<!-- 게시물 수정 -->
+	<insert id="update">
+		update cryptoBoard set c_update = sysdate, content = #{content} 
+		where c_id = #{c_id} 
+	</insert>
 
 	<!-- 게시물 삭제 -->
 	<delete id="delete">

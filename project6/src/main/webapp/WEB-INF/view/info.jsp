@@ -476,7 +476,7 @@
 		let boardStr = "";
 		
 		for (index in result){
-			boardStr += "<div class='row my-1'>";
+			boardStr += "<div id='boardRow" +result[index].c_id+ "' class='row my-1'>";
 			if (sId == result[index].u_id){// 내 게시글이면 아이콘 다르게 표시
 				boardStr += "	<div id='iconDiv' class='col col-2 text-center'>";
 				boardStr += "		<img src='resources/images/pepe_rich.png' height='52' class='bg-warning rounded-5'>";
@@ -498,13 +498,14 @@
 			}
 			timeStamp = Number(result[index].c_date);
 			dayTime = new Date(timeStamp);
-			boardStr += "		<span class='float-end me-1'>" +dayTime.toLocaleString()+ "</span><br/>";
-			boardStr += "		<span class=''>" +result[index].content+ "</span>";
+			boardStr += "		<span class='float-end me-1'><sup>" +dayTime.toLocaleString()+ "</sup></span><br/>";
+			boardStr += "		<span id='contentBox' class=''>" +result[index].content+ "</span>";
 			boardStr += "		</small>";
 			boardStr += "	</div>";
 			if (sId == result[index].u_id){// 내 게시글이면 삭제버튼 넣기
-				boardStr += "	<div class='col col-2 text-center'>";
-				boardStr += "		<button type='button' id='delBoardBtn' class='btn btn-sm btn-danger' value='" +result[index].c_id+ "'>삭제</button>";
+				boardStr += "	<div class='col col-2 text-center d-grid'>";
+				boardStr += "		<button type='button' id='modBoardBtn' class='btn btn-sm btn-warning fw-bold py-0' value='" +result[index].c_id+ "'>수정</button>";
+				boardStr += "		<button type='button' id='delBoardBtn' class='btn btn-sm btn-danger fw-bold py-0' value='" +result[index].c_id+ "'>삭제</button>";
 				boardStr += "	</div>";
 			}
 			boardStr += "</div>";
@@ -618,6 +619,82 @@
 		
 	})
 	
+	// 게시물 수정
+	$(function() {
+		
+		// 게시물 수정 준비 - 버튼 클릭시 입력폼으로 변환
+		let contentId;
+		let boardObj;
+		let contentText;
+		$(document).on('click', '#modBoardBtn', function(){ // 동적으로 생성된 버튼은 이렇게 처리한다. $('#id') 불가
+			
+			//console.log('#modBoardBtn Test');// for test (done)
+			contentId = event.target.value;
+			//console.log(contentId);// for test (done)
+			contentText = $('#boardRow'+contentId+' #contentBox').text();
+			//console.log(contentText);// for test (done)
+			
+			let boardRowStr = "";
+			boardRowStr += "<form id='modForm'>";
+			boardRowStr += "<div class='form-group'>";
+			boardRowStr += "	<div class='row'>";
+			boardRowStr += "		<div class='col-10 pe-0'>";
+			boardRowStr += "			<textarea id='modBox' class='form-control pe-0' id='modText' rows='2' >" +contentText+ "</textarea>";
+			boardRowStr += "		</div>";
+			boardRowStr += "		<div class='col-2 d-grid ps-1'>";
+			boardRowStr += "			<input id='modSendBoardBtn' type='button' class='btn btn-sm btn-success me-2' value='수정등록' />";
+			boardRowStr += "		</div>";
+			boardRowStr += "	</div>";
+			boardRowStr += "</div>";
+			boardRowStr += "</form>";
+			
+			$('#boardRow'+contentId).empty().append(boardRowStr);
+		});
+		// 게시물 수정 등록
+		$(document).on('click', '#modSendBoardBtn', function(){
+			console.log('수정등록버튼 인식');//for test (done)
+			let newContent = $('#boardRow'+contentId+' #modBox').val();// 현재 입력된 문자열
+			console.log('수정할 글자 인식: ' +newContent);
+			boardObj = { c_id:contentId, content:newContent };
+			
+			$.ajax({
+				url : "./board/modBoard/",	// 콘트롤러 주소 
+				data : JSON.stringify(boardObj),	//요청 파라미터
+				type : "PUT", //전송타입
+				contentType:'application/json;charset=utf-8',
+				//dataType : "json", //응답타입
+				//async : false,
+				success : function(result){
+					console.log(result);
+					alert('게시물을 수정했습니다. ID:'+sId+' / Name:'+sName+'/ 게시물번호:'+contentId);
+					
+					// 게시글 수정 후 리스트 다시 받아오기
+					$.ajax({
+						url : "./board/getBoard/" +reqSymbol,	// 콘트롤러 주소 
+						type : "GET", //전송타입
+						dataType : "json", //응답타입
+						success : function(result){
+							$('#inputCnt').empty();
+							boardShow(result);
+						},
+						error : function(xhr, status, msg) {	// 통신 실패시 호출하는 함수
+							alert('게시물 등록 후 게시물 리스트 받아오기 실패.');
+							console.log("error : ", msg);
+							console.log("status : ", status);
+						}
+					});
+					
+				},
+				error : function(xhr, status, msg) {	// 통신 실패시 호출하는 함수
+					alert('게시물 수정 등록 통신 실패');
+					console.log("error : ", msg);
+					console.log("status : ", status);
+				}
+			});
+		});
+	})
+	
+	// 게시물 쓰기 카운터
 	$(document).ready(function() {
 		$('#contentText').on('keyup', function() {
 			$('#inputCnt').html("("+$(this).val().length+" / 200)");

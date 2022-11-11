@@ -44,7 +44,7 @@ public class UserController
 		logger.info("회원가입 성공 - POST method");
 		logger.info("홈화면 으로 이동 ");
 
-		return "redirect:/";// 홈으로 이동
+		return "redirect:/login";// 로그인 페이지로 이동
 	}
 
 	// 아이디 중복 검사 메서드
@@ -122,7 +122,7 @@ public class UserController
 		session.setAttribute("sessionId", lvo.getU_id());
 		session.setAttribute("sessionName", lvo.getU_name());
 		logger.info("로그인 성공");
-		return "redirect:/list";
+		return "redirect:/list";// TOP100 페이지로 이동
 	}
 
 	// 로그아웃 메서드

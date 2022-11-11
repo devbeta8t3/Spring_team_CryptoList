@@ -291,9 +291,10 @@
 			//alert('즐겨찾기에 있습니다. ㅇㅇㅇㅇㅇㅇㅇ');// for test (done)
 			// 클릭한 요소의 id를 가져와서 db 즐겨찾기에서 삭제
 			let delCoin = $(clicked).attr('id');
-			delFav(delCoin);
+			let nOk = delFav(delCoin);
 			// 아이콘 색깔 바꾸기
-			$(clicked).empty().removeClass('text-warning').append("☆");
+			//if(nOk == "success")
+				$(clicked).empty().removeClass('text-warning').append("☆");
 		}
 		else if (clicked.textContent == "☆"){
 			//alert('즐겨찾기에 없습니다. xxxxxxxxxx');// for test (done)
@@ -310,7 +311,7 @@
 		/* sessionId 값 가져오기 */
 		let sId = '<%=(String) session.getAttribute("sessionId")%>';
 		let favObj = {u_id : sId, symbol : delCoin}; // 요청 파라미터 설정
-		let delResult;
+		let delResult="fail";
 		
 		$.ajax({
 			url : "./delFav/",	// 콘트롤러 주소 
@@ -321,6 +322,7 @@
 			async : false,
 			success : function(result){
 				console.log(result);
+				//delResult = result;
 				alert('즐겨찾기가 삭제되었습니다. ID:'+sId+' / Symbol:'+delCoin);
 			},
 			error : function(xhr, status, msg) {	// 통신 실패시 호출하는 함수
@@ -329,6 +331,8 @@
 				console.log("status : ", status);
 			}
 		});
+		//return delResult;
+		
 	}
 	// 즐겨찾기 추가
 	function addFav(addCoin){

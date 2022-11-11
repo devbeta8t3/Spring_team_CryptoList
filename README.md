@@ -11,7 +11,7 @@ Spring framework for the team project at Busan IT training center
   - 즐겨찾기.(등록/삭제)
 
 Skills used
-1. Spring framework
+1. Spring framework, myBatis
 2. Java, JSP
 3. HTML, CSS(Bootstrap), Javascript(jQuery, Ajax)
 4. Oracle DB 11g

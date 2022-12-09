@@ -95,7 +95,7 @@
 	
 	let sId = '<%=(String) session.getAttribute("sessionId")%>';
 	let sName = '<%=(String) session.getAttribute("sessionName")%>';
-	console.log("sId",sId, "sName", sName);
+	
 	/* Request Parameter의 값 */
 	function Request(){
 		let requestParam ="";

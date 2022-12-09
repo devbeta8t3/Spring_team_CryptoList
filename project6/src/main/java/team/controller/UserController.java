@@ -44,7 +44,7 @@ public class UserController
 		logger.info("회원가입 성공 - POST method");
 		logger.info("홈화면 으로 이동 ");
 
-		return "redirect:/";// 홈으로 이동
+		return "redirect:/login";// 로그인 페이지로 이동
 	}
 
 	// 아이디 중복 검사 메서드
@@ -80,7 +80,6 @@ public class UserController
 	{
 		userservice.userUpdate(vo);
 
-
 		return "redirect:/list";
 	}
 
@@ -112,7 +111,7 @@ public class UserController
 
 		if (lvo == null)
 		{
-			// 일치하지 않는 아이디, 비밀번호 입력 경우(로그인 실패)
+		// 일치하지 않는 아이디, 비밀번호 입력 경우(로그인 실패)
 			int result = 0;
 			rttr.addFlashAttribute("result", result);
 			logger.info("로그인 실패");
@@ -123,7 +122,7 @@ public class UserController
 		session.setAttribute("sessionId", lvo.getU_id());
 		session.setAttribute("sessionName", lvo.getU_name());
 		logger.info("로그인 성공");
-		return "redirect:/list";
+		return "redirect:/list";// TOP100 페이지로 이동
 	}
 
 	// 로그아웃 메서드

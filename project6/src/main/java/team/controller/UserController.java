@@ -121,6 +121,7 @@ public class UserController
 		// 일치하는 아이디, 비밀번호 경우(로그인 성공)
 		session.setAttribute("user", lvo);
 		session.setAttribute("sessionId", lvo.getU_id());
+		session.setAttribute("sessionName", lvo.getU_name());
 		logger.info("로그인 성공");
 		return "redirect:/list";
 	}

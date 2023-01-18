@@ -15,7 +15,7 @@ Skills used
 2. Java, JSP
 3. HTML, CSS(Bootstrap), Javascript(jQuery, Ajax)
 4. Oracle DB 11g
-5. Messari API, Coinmarketcap API
+5. Messari API
 
 발표 후 코멘트 by 윤요섭 선생님 
 1. PPT - 구현 기능에 대한 자세한 기술(description)  

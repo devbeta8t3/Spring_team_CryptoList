@@ -1,4 +1,4 @@
-# Spring_team
+# Spring_team_CryptoList
 Spring framework for the team project at Busan IT training center
 
 부산 IT 교육센터 블록체인 수업. Spring framework 과정의 Team project.
